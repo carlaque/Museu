@@ -3,7 +3,6 @@ package Control;
 import java.time.LocalDate;
 
 import Entity.Autor;
-import Entity.Obra;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -26,23 +25,23 @@ public class AutorControl {
 
 	
 	public Autor getAutor() { 
-		Autor c = new Autor();
-		c.setId(idProperty.get());
-		c.setNome(nomeProperty.get());
-		c.setNascimento(nascimentoProperty.get());
-		c.setNascimento(falecimentoProperty.get());
-		return c;
+		Autor a = new Autor();
+		a.setId(idProperty.get());
+		a.setNome(nomeProperty.get());
+		a.setNascimento(nascimentoProperty.get());
+		a.setNascimento(falecimentoProperty.get());
+		return a;
 	}
 	
 	
 	
-	public void setAutor(Autor c) { 
-		if (c != null)  { 
-			idProperty.set(c.getId());
-			nomeProperty.set(c.getNome());
-			nacionalidadeProperty.set(c.getNacionalidade());
-			nascimentoProperty.set(c.getNascimento());
-			falecimentoProperty.set(c.getFalecimento());
+	public void setAutor(Autor a) { 
+		if (a != null)  { 
+			idProperty.set(a.getId());
+			nomeProperty.set(a.getNome());
+			nacionalidadeProperty.set(a.getNacionalidade());
+			nascimentoProperty.set(a.getNascimento());
+			falecimentoProperty.set(a.getFalecimento());
 		}
 	}
 	
@@ -51,9 +50,9 @@ public class AutorControl {
 	}
 	
 	public void pesquisarPorNome() {
-		for (Autor c : getAutores()) { 
-			if (c.getNome().contains(nomeProperty.get())) { 
-				setAutor(c);
+		for (Autor a : getAutores()) { 
+			if (a.getNome().contains(nomeProperty.get())) { 
+				setAutor(a);
 			}
 		}
 	}
