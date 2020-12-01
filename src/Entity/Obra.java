@@ -4,9 +4,8 @@ public class Obra {
 	
 	private Long id; 
 	private String titulo; 
-	private String descrição;
-	private String período;
-	private Autor autor;
+	private String descricao;
+	private String periodo;
 	
 	public Long getId() {
 		return id;
@@ -20,23 +19,18 @@ public class Obra {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	public String getDescrição() {
-		return descrição;
+	public String getDescricao() {
+		return descricao;
 	}
-	public void setDescrição(String descrição) {
-		this.descrição = descrição;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
-	public Autor getAutor() {
-		return autor;
+	
+	public String getPeriodo() {
+		return periodo;
 	}
-	public void setAutor(Autor autor) {
-		this.autor = autor;
-	}
-	public String getPeríodo() {
-		return período;
-	}
-	public void setPeríodo(String período) {
-		this.período = período;
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
 	}
 	
 }

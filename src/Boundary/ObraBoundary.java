@@ -1,14 +1,10 @@
 package Boundary;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import Control.AutorControl;
-import Entity.Autor;
+import Control.ObraControl;
+import Entity.Obra;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -24,66 +20,53 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
 
-public class AutorBoundary extends Application implements EventHandler<ActionEvent>{
+public class ObraBoundary extends Application implements EventHandler<ActionEvent>{
 		
 	private TextField txtId = new TextField();
-	private TextField txtNome = new TextField();
-	private TextField txtNacionalidade = new TextField();
-	private TextField txtNascimento = new TextField();
-	private TextField txtFalecimento = new TextField();
+	private TextField txtTitulo = new TextField();
+	private TextField txtDescricao = new TextField();
+	private TextField txtPeriodo = new TextField();
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	
-	private AutorControl control = new AutorControl();
-	private TableView<Autor> table = new TableView<>();
+	private ObraControl control = new ObraControl();
+	private TableView<Obra> table = new TableView<>();
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos(){ 
 		StringConverter<? extends Number> idConverter = new LongStringConverter();
-		StringConverter<LocalDate> dateConverter = new LocalDateStringConverter();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);	
-		Bindings.bindBidirectional(txtNome.textProperty(), control.getNomeProperty());
-		Bindings.bindBidirectional(txtNacionalidade.textProperty(), control.getNacionalidadeProperty());
-		Bindings.bindBidirectional(txtNascimento.textProperty(), control.getNascimentoProperty(), dateConverter);
-		Bindings.bindBidirectional(txtFalecimento.textProperty(), control.getFalecimentoProperty(), dateConverter);
+		Bindings.bindBidirectional(txtTitulo.textProperty(), control.getTituloProperty());
+		Bindings.bindBidirectional(txtDescricao.textProperty(), control.getDescricaoProperty());
+		Bindings.bindBidirectional(txtPeriodo.textProperty(), control.getPeriodoProperty());
 		
-		TableColumn<Autor, Long> colId = new TableColumn<>("ID");
+		TableColumn<Obra, Long> colId = new TableColumn<>("ID");
 		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
-		TableColumn<Autor, String> colNome = new TableColumn<>("Nome");
-		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		TableColumn<Obra, String> colTitulo = new TableColumn<>("Titulo");
+		colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
 		
-		TableColumn<Autor, String> colNacionalidade = new TableColumn<>("Nacionalidade");
-		colNacionalidade.setCellValueFactory(new PropertyValueFactory<>("nacionalidade"));
+		TableColumn<Obra, String> colDescricao = new TableColumn<>("Descrição");
+		colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 		
-		TableColumn<Autor, String> colNascimento = new TableColumn<>("Nascimento");
-		colNascimento.setCellValueFactory(
-				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getNascimento().format(dtf));}
-				);
+		TableColumn<Obra, String> colPeriodo = new TableColumn<>("Periodo");
+		colPeriodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
 		
-		TableColumn<Autor, String> colFalecimento = new TableColumn<>("Falecimento");
-		colFalecimento.setCellValueFactory(
-				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getFalecimento().format(dtf));}
-				);
+		table.getColumns().addAll(colId, colTitulo, colDescricao, colPeriodo);
 		
-		table.getColumns().addAll(colId, colNome, colNacionalidade, colNascimento, colFalecimento);
-		
-		table.setItems( control.getAutores() );
+		table.setItems( control.getObras() );
 		
 	}
 
 	
-	
 	@Override
 	public void start(Stage stage) throws Exception {
 		vincularCampos();
-		dateField(txtNascimento);
+		
 		BorderPane bp = new BorderPane();
 		Scene scn = new Scene(bp, 600, 200);
 		
@@ -92,17 +75,14 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		paneCampos.add(new Label("Id"), 0, 0);
 		paneCampos.add(txtId, 1, 0);
 		
-		paneCampos.add(new Label("Nome"), 0, 1);
-		paneCampos.add(txtNome, 1, 1);
+		paneCampos.add(new Label("Titulo"), 0, 1);
+		paneCampos.add(txtTitulo, 1, 1);
 		
-		paneCampos.add(new Label("Nacionalidade"), 0, 2);
-		paneCampos.add(txtNacionalidade, 1, 2);
+		paneCampos.add(new Label("Descricao"), 0, 2);
+		paneCampos.add(txtDescricao, 1, 2);
 		
-		paneCampos.add(new Label("Nascimento"), 0, 3);
-		paneCampos.add(txtNascimento, 1, 3);
-		
-		paneCampos.add(new Label("Falecimento"), 0, 4);
-		paneCampos.add(txtFalecimento, 1, 4);
+		paneCampos.add(new Label("Periodo"), 0, 3);
+		paneCampos.add(txtPeriodo, 1, 3);
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
@@ -114,7 +94,7 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		bp.setCenter(table);
 		
 		stage.setScene(scn);
-		stage.setTitle("Cadastro de Autor");
+		stage.setTitle("Cadastro de Obra");
 		stage.show();
 	}
 	
@@ -169,7 +149,7 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 	
 	
 	public static void main(String[] args) {
-		Application.launch(AutorBoundary.class, args);
+		Application.launch(ObraBoundary.class, args);
 	}
 
 }
