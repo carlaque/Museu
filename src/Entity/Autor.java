@@ -9,6 +9,7 @@ public class Autor {
 	private String nacionalidade; 
 	private LocalDate nascimento;
 	private LocalDate falecimento;
+	
 	public Long getId() {
 		return id;
 	}

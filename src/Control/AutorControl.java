@@ -3,7 +3,6 @@ package Control;
 import java.time.LocalDate;
 
 import Entity.Autor;
-import Entity.Obra;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -30,7 +29,7 @@ public class AutorControl {
 		c.setId(idProperty.get());
 		c.setNome(nomeProperty.get());
 		c.setNascimento(nascimentoProperty.get());
-		c.setNascimento(falecimentoProperty.get());
+		c.setFalecimento(falecimentoProperty.get());
 		return c;
 	}
 	
