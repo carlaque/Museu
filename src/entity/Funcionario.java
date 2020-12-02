@@ -1,15 +1,14 @@
-package Entity;
+package entity;
 
 import java.time.LocalDate;
 
-public class Autor {
+public class Funcionario {
 	
 	private Long id;
 	private String nome;
-	private String nacionalidade; 
+	private String cpf;
 	private LocalDate nascimento;
-	private LocalDate falecimento;
-	
+	private String telefone;
 	public Long getId() {
 		return id;
 	}
@@ -22,11 +21,11 @@ public class Autor {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getNacionalidade() {
-		return nacionalidade;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setNacionalidade(String nacionalidade) {
-		this.nacionalidade = nacionalidade;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	public LocalDate getNascimento() {
 		return nascimento;
@@ -34,12 +33,12 @@ public class Autor {
 	public void setNascimento(LocalDate nascimento) {
 		this.nascimento = nascimento;
 	}
-	public LocalDate getFalecimento() {
-		return falecimento;
+	public String getTelefone() {
+		return telefone;
 	}
-	public void setFalecimento(LocalDate falecimento) {
-		this.falecimento = falecimento;
-	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	} 
 	
 	
 

@@ -1,8 +1,8 @@
-package Control;
+package control;
 
 import java.time.LocalDate;
 
-import Entity.Autor;
+import entity.Autor;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -25,12 +25,12 @@ public class AutorControl {
 
 	
 	public Autor getAutor() { 
-		Autor c = new Autor();
-		c.setId(idProperty.get());
-		c.setNome(nomeProperty.get());
-		c.setNascimento(nascimentoProperty.get());
-		c.setFalecimento(falecimentoProperty.get());
-		return c;
+		Autor a = new Autor();
+		a.setId(idProperty.get());
+		a.setNome(nomeProperty.get());
+		a.setNascimento(nascimentoProperty.get());
+		a.setFalecimento(falecimentoProperty.get());
+		return a;
 	}
 	
 	

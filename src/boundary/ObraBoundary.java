@@ -1,7 +1,7 @@
-package Boundary;
+package boundary;
 
-import Control.ObraControl;
-import Entity.Obra;
+import control.ObraControl;
+import entity.Obra;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

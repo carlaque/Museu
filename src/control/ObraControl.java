@@ -1,7 +1,7 @@
-package Control;
+package control;
 
-import Entity.Autor;
-import Entity.Obra;
+import entity.Autor;
+import entity.Obra;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;

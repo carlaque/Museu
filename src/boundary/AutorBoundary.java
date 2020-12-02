@@ -1,10 +1,10 @@
-package Boundary;
+package boundary;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Control.FuncionarioControl;
-import Entity.Funcionario;
+import control.AutorControl;
+import entity.Autor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -27,63 +27,65 @@ import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
 
-public class FuncionarioBoundary extends Application implements EventHandler<ActionEvent>{
-
+public class AutorBoundary extends Application implements EventHandler<ActionEvent>{
+		
 	private TextField txtId = new TextField();
 	private TextField txtNome = new TextField();
-	private TextField txtCpf = new TextField();
+	private TextField txtNacionalidade = new TextField();
 	private TextField txtNascimento = new TextField();
-	private TextField txtTelefone = new TextField();
+	private TextField txtFalecimento = new TextField();
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	
-	private FuncionarioControl control = new FuncionarioControl();
-	private TableView<Funcionario> table = new TableView<>();
+	private AutorControl control = new AutorControl();
+	private TableView<Autor> table = new TableView<>();
 	
 	@SuppressWarnings("unchecked")
-	public void vincularCampos() {
+	public void vincularCampos(){ 
 		StringConverter<? extends Number> idConverter = new LongStringConverter();
 		StringConverter<LocalDate> dateConverter = new LocalDateStringConverter();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);
+		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);	
 		Bindings.bindBidirectional(txtNome.textProperty(), control.getNomeProperty());
-		Bindings.bindBidirectional(txtCpf.textProperty(), control.getCpfProperty());
+		Bindings.bindBidirectional(txtNacionalidade.textProperty(), control.getNacionalidadeProperty());
 		Bindings.bindBidirectional(txtNascimento.textProperty(), control.getNascimentoProperty(), dateConverter);
-		Bindings.bindBidirectional(txtTelefone.textProperty(), control.getTelefoneProperty());
+		Bindings.bindBidirectional(txtFalecimento.textProperty(), control.getFalecimentoProperty(), dateConverter);
 		
-		TableColumn<Funcionario, Long> colId = new TableColumn<>("ID");
-		colId.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		TableColumn<Autor, Long> colId = new TableColumn<>("ID");
+		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
-		TableColumn<Funcionario, String> colNome = new TableColumn<>("Nome");
+		TableColumn<Autor, String> colNome = new TableColumn<>("Nome");
 		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		
-		TableColumn<Funcionario, String> colCpf = new TableColumn<>("CPF");
-		colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+		TableColumn<Autor, String> colNacionalidade = new TableColumn<>("Nacionalidade");
+		colNacionalidade.setCellValueFactory(new PropertyValueFactory<>("nacionalidade"));
 		
-		TableColumn<Funcionario, String> colNascimento = new TableColumn<>("Nascimento");
+		TableColumn<Autor, String> colNascimento = new TableColumn<>("Nascimento");
 		colNascimento.setCellValueFactory(
 				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getNascimento().format(dtf));}
 				);
 		
-		TableColumn<Funcionario, String> colTelefone = new TableColumn<>("Telefone");
-		colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+		TableColumn<Autor, String> colFalecimento = new TableColumn<>("Falecimento");
+		colFalecimento.setCellValueFactory(
+				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getFalecimento().format(dtf));}
+				);
 		
+		table.getColumns().addAll(colId, colNome, colNacionalidade, colNascimento, colFalecimento);
 		
-		table.getColumns().addAll(colId, colNome,colCpf, colNascimento, colTelefone);
-		
-		table.setItems( control.getFuncionarios() );
+		table.setItems( control.getAutores() );
 		
 	}
+
+	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
 		vincularCampos();
 		dateField(txtNascimento);
-		
 		BorderPane bp = new BorderPane();
-		Scene scn = new Scene(bp, 600,200);
+		Scene scn = new Scene(bp, 600, 200);
 		
 		GridPane paneCampos = new GridPane();
 		
@@ -93,14 +95,14 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 		paneCampos.add(new Label("Nome"), 0, 1);
 		paneCampos.add(txtNome, 1, 1);
 		
-		paneCampos.add(new Label("CPF"), 0, 2);
-		paneCampos.add(txtCpf, 1, 2);
+		paneCampos.add(new Label("Nacionalidade"), 0, 2);
+		paneCampos.add(txtNacionalidade, 1, 2);
 		
 		paneCampos.add(new Label("Nascimento"), 0, 3);
 		paneCampos.add(txtNascimento, 1, 3);
 		
-		paneCampos.add(new Label("Telefone"), 0, 4);
-		paneCampos.add(txtTelefone, 1, 4);
+		paneCampos.add(new Label("Falecimento"), 0, 4);
+		paneCampos.add(txtFalecimento, 1, 4);
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
@@ -112,10 +114,11 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 		bp.setCenter(table);
 		
 		stage.setScene(scn);
-		stage.setTitle("Cadastro de Funcionario");
+		stage.setTitle("Cadastro de Autor");
 		stage.show();
-		
 	}
+	
+	
 	
 	@Override
 	public void handle(ActionEvent e) {
@@ -162,9 +165,11 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 	        }
 	    });
 	}
-
+	
+	
+	
 	public static void main(String[] args) {
-		Application.launch(FuncionarioBoundary.class, args);
+		Application.launch(AutorBoundary.class, args);
 	}
 
 }
