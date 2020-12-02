@@ -1,8 +1,8 @@
-package Control;
+package control;
 
 import java.time.LocalDate;
 
-import Entity.Funcionario;
+import entity.Funcionario;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
