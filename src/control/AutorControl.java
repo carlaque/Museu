@@ -1,8 +1,12 @@
 package control;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import dao.AutorDAO;
+import dao.AutorDAOImpl;
 import entity.Autor;
+import exceptions.AutorException;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -22,7 +26,8 @@ public class AutorControl {
 	
 	private ObjectProperty<LocalDate> nascimentoProperty = new SimpleObjectProperty<>(LocalDate.now());
 	private ObjectProperty<LocalDate> falecimentoProperty = new SimpleObjectProperty<>(LocalDate.now());
-
+	
+	private AutorDAO autorDAO = new AutorDAOImpl();
 	
 	public Autor getAutor() { 
 		Autor a = new Autor();
@@ -45,16 +50,16 @@ public class AutorControl {
 		}
 	}
 	
-	public void adicionar() {
-		getAutores().add(getAutor());
+	public void adicionar() throws AutorException {
+		autorDAO.adicionar(getAutor());
+//		getAutores().add(getAutor());
 	}
 	
-	public void pesquisarPorNome() {
-		for (Autor c : getAutores()) { 
-			if (c.getNome().contains(nomeProperty.get())) { 
-				setAutor(c);
-			}
-		}
+	public void pesquisarPorNome() throws AutorException {
+		List<Autor> contatos = autorDAO.pesquisarPorNome(this.getNomeProperty().get());
+		
+		this.autores.clear();
+		this.autores.addAll(contatos);
 	}
 	
 	

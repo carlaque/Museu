@@ -1,0 +1,50 @@
+MariaDB [(none)]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 1 row affected (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected (0.003 sec)
+
+Query OK, 0 rows affected (0.003 sec)
+
+ERROR 1072 (42000): Key column 'autor_id' doesn't exist in table
+MariaDB [museu]> show tables
+    -> ;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
++-----------------+
+2 rows in set (0.000 sec)
+
+MariaDB [museu]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CONSTRAINT `fk_obra_autor`
+		FOREIGN KEY (autor_id) REFERENCES autor (id)
+		O...' at line 7
+MariaDB [museu]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [museu]> show tables;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
+| obra            |
++-----------------+
+3 rows in set (0.000 sec)
+

@@ -2,14 +2,12 @@ package boundary;
 
 import control.ObraControl;
 import entity.Obra;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -18,12 +16,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import javafx.util.converter.LongStringConverter;
 
-public class ObraBoundary extends Application implements EventHandler<ActionEvent>{
-		
+public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy{
+	
+	private BorderPane tela = new BorderPane();
+	
 	private TextField txtId = new TextField();
 	private TextField txtTitulo = new TextField();
 	private TextField txtDescricao = new TextField();
@@ -34,6 +34,8 @@ public class ObraBoundary extends Application implements EventHandler<ActionEven
 	
 	private ObraControl control = new ObraControl();
 	private TableView<Obra> table = new TableView<>();
+	
+	private Principal principal;
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos(){ 
@@ -62,13 +64,9 @@ public class ObraBoundary extends Application implements EventHandler<ActionEven
 		
 	}
 
-	
-	@Override
-	public void start(Stage stage) throws Exception {
+	public ObraBoundary(Principal principal){
+		this.principal = principal;
 		vincularCampos();
-		
-		BorderPane bp = new BorderPane();
-		Scene scn = new Scene(bp, 600, 200);
 		
 		GridPane paneCampos = new GridPane();
 		
@@ -90,12 +88,8 @@ public class ObraBoundary extends Application implements EventHandler<ActionEven
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
 		
-		bp.setTop(paneCampos);
-		bp.setCenter(table);
-		
-		stage.setScene(scn);
-		stage.setTitle("Cadastro de Obra");
-		stage.show();
+		tela.setTop(paneCampos);
+		tela.setCenter(table);
 	}
 	
 	
@@ -145,11 +139,9 @@ public class ObraBoundary extends Application implements EventHandler<ActionEven
 	        }
 	    });
 	}
-	
-	
-	
-	public static void main(String[] args) {
-		Application.launch(ObraBoundary.class, args);
+	@Override
+	public Pane getTela() {
+		return tela;
 	}
 
 }

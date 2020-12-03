@@ -22,13 +22,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
 
-public class FuncionarioBoundary extends Application implements EventHandler<ActionEvent>{
-
+public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrategy{
+	
+	private BorderPane tela = new BorderPane();	
+	
 	private TextField txtId = new TextField();
 	private TextField txtNome = new TextField();
 	private TextField txtCpf = new TextField();
@@ -40,6 +43,8 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 	
 	private FuncionarioControl control = new FuncionarioControl();
 	private TableView<Funcionario> table = new TableView<>();
+	
+	private Principal principal;
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos() {
@@ -77,13 +82,10 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 		
 	}
 	
-	@Override
-	public void start(Stage stage) throws Exception {
+	public FuncionarioBoundary(Principal principal) {
+		this.principal = principal;
 		vincularCampos();
 		dateField(txtNascimento);
-		
-		BorderPane bp = new BorderPane();
-		Scene scn = new Scene(bp, 600,200);
 		
 		GridPane paneCampos = new GridPane();
 		
@@ -108,12 +110,8 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
 		
-		bp.setTop(paneCampos);
-		bp.setCenter(table);
-		
-		stage.setScene(scn);
-		stage.setTitle("Cadastro de Funcionario");
-		stage.show();
+		tela.setTop(paneCampos);
+		tela.setCenter(table);
 		
 	}
 	
@@ -163,8 +161,9 @@ public class FuncionarioBoundary extends Application implements EventHandler<Act
 	    });
 	}
 
-	public static void main(String[] args) {
-		Application.launch(FuncionarioBoundary.class, args);
+	@Override
+	public Pane getTela() {
+		return tela;
 	}
 
 }
