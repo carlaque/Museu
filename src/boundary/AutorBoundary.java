@@ -88,7 +88,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 				});
 		
 	}
-
 	
 	public AutorBoundary(Principal principal) {
 		this.principal = principal;
@@ -124,8 +123,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 		tela.setTop(paneCampos);
 		tela.setCenter(table);
 	}
-	
-	
 	
 	@Override
 	public void handle(ActionEvent e) {
@@ -166,7 +163,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	
 	public static void dateField(final TextField textField) {
 	    maxField(textField, 10);
-
 	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

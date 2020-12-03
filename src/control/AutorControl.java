@@ -40,13 +40,13 @@ public class AutorControl {
 	
 	
 	
-	public void setAutor(Autor c) { 
-		if (c != null)  { 
-			idProperty.set(c.getId());
-			nomeProperty.set(c.getNome());
-			nacionalidadeProperty.set(c.getNacionalidade());
-			nascimentoProperty.set(c.getNascimento());
-			falecimentoProperty.set(c.getFalecimento());
+	public void setAutor(Autor a) { 
+		if (a != null)  { 
+			idProperty.set(a.getId());
+			nomeProperty.set(a.getNome());
+			nacionalidadeProperty.set(a.getNacionalidade());
+			nascimentoProperty.set(a.getNascimento());
+			falecimentoProperty.set(a.getFalecimento());
 		}
 	}
 	
