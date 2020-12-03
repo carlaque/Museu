@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import control.FuncionarioControl;
 import entity.Funcionario;
-import javafx.application.Application;
+import exceptions.FuncionarioException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -13,7 +13,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -23,7 +24,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
@@ -59,7 +59,7 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		Bindings.bindBidirectional(txtTelefone.textProperty(), control.getTelefoneProperty());
 		
 		TableColumn<Funcionario, Long> colId = new TableColumn<>("ID");
-		colId.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
 		TableColumn<Funcionario, String> colNome = new TableColumn<>("Nome");
 		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -79,6 +79,11 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		table.getColumns().addAll(colId, colNome,colCpf, colNascimento, colTelefone);
 		
 		table.setItems( control.getFuncionarios() );
+		
+		table.getSelectionModel().selectedItemProperty().addListener(
+				(listener, antigo, novo) -> {
+					control.setFuncionario(novo);
+				});
 		
 	}
 	
@@ -118,9 +123,22 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			control.adicionar();
+//			System.out.println("Botão adicionar foi pressionado");
+			try {
+				control.adicionar();
+			} catch (FuncionarioException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao adicionar o funcionario").show();			
+			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			control.pesquisarPorNome();
+//			System.out.println("Botão pesquisar foi pressionado");
+			try {
+				control.pesquisarPorNome();
+			} catch (FuncionarioException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao pesquisar o funcionario").show();
+
+			}
 		}
 	}
 	

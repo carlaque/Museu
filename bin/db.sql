@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS obra (
 	titulo varchar(100) DEFAULT NULL,
 	descricao varchar(250) DEFAULT NULL,
 	periodo varchar(50) DEFAULT NULL,
+	autor_id int,
 	CONSTRAINT `fk_obra_autor`
 		FOREIGN KEY (autor_id) REFERENCES autor (id)
 		ON DELETE CASCADE

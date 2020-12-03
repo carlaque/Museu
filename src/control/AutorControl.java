@@ -20,7 +20,7 @@ public class AutorControl {
 	
 	private ObservableList<Autor> autores = FXCollections.observableArrayList();
 	
-	private LongProperty idProperty = new SimpleLongProperty(0);
+	private LongProperty idProperty = new SimpleLongProperty();
 	private StringProperty nomeProperty = new SimpleStringProperty("");
 	private StringProperty nacionalidadeProperty = new SimpleStringProperty("");
 	
@@ -56,10 +56,10 @@ public class AutorControl {
 	}
 	
 	public void pesquisarPorNome() throws AutorException {
-		List<Autor> contatos = autorDAO.pesquisarPorNome(this.getNomeProperty().get());
+		List<Autor> lista = autorDAO.pesquisarPorNome(this.getNomeProperty().get());
 		
 		this.autores.clear();
-		this.autores.addAll(contatos);
+		this.autores.addAll(lista);
 	}
 	
 	

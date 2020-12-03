@@ -26,8 +26,9 @@ public class Principal extends Application
 	private Menu mnuCadastro = new Menu("Cadastro");
 	private Menu mnuAjuda = new Menu("Ajuda");
 	
-	private MenuItem mnuContato = new MenuItem("Contato");
-	private MenuItem mnuObra = new MenuItem("Obra");
+	private MenuItem mnuContato = new MenuItem("Autor");
+	
+//	private MenuItem mnuObra = new MenuItem("Obra");
 	private MenuItem mnuFuncionario = new MenuItem("Funcionario");
 	
 //	private MenuItem mnuCreditos = new MenuItem("Creditos");
@@ -40,11 +41,11 @@ public class Principal extends Application
 		panePrincipal.setTop(mnuPrincipal);
 		mnuPrincipal.getMenus().addAll(mnuCadastro, mnuAjuda);
 		
-		mnuCadastro.getItems().addAll(mnuContato, mnuObra, mnuFuncionario, mnuSair);
+		mnuCadastro.getItems().addAll(mnuContato, mnuFuncionario, mnuSair);
 //		mnuAjuda.getItems().addAll(mnuCreditos);
 		
 		mnuContato.setOnAction(this);
-		mnuObra.setOnAction(this);
+//		mnuObra.setOnAction(this);
 		mnuFuncionario.setOnAction(this);
 		
 		mnuSair.setOnAction(this);
@@ -66,9 +67,9 @@ public class Principal extends Application
 		if (e.getTarget() == mnuSair) { 
 			this.executarComando("sair");
 		} else if (e.getTarget() == mnuContato) { 
-			this.executarComando("contato");
-		} else if (e.getTarget() == mnuObra) { 
-			this.executarComando("obra");
+			this.executarComando("autor");
+//		} else if (e.getTarget() == mnuObra) { 
+//			this.executarComando("obra");
 		} else if (e.getTarget() == mnuFuncionario) { 
 			this.executarComando("funcionario");
 		} 
@@ -78,12 +79,16 @@ public class Principal extends Application
 	public void telaContext() { 
 		panePrincipal.setCenter(tela.getTela());
 	}
+	
+	public void navegarPara(String tela) {
+		executarComando(tela);
+	}
 
 	@Override
 	public void executarComando(String cmd) {
 		if ("sair".equals(cmd)) { 
 			System.exit(0);
-		} else if ("contato".equals(cmd)) { 
+		} else if ("autor".equals(cmd)) { 
 			tela = autorTela;
 		} else if ("obra".equals(cmd)) { 
 			tela = obraTela;
@@ -92,5 +97,9 @@ public class Principal extends Application
 		} 
 		
 		this.telaContext();
+	}
+
+	public void setAutor(Long id) {
+		this.obraTela.setAutoId(id);
 	}
 }

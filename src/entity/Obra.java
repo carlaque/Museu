@@ -6,7 +6,14 @@ public class Obra {
 	private String titulo; 
 	private String descricao;
 	private String periodo;
+	private int AutorId;
 	
+	public int getAutorId() {
+		return AutorId;
+	}
+	public void setAutorId(int autorId) {
+		AutorId = autorId;
+	}
 	public Long getId() {
 		return id;
 	}

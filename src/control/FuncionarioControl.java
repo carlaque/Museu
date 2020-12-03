@@ -1,8 +1,12 @@
 package control;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import dao.FuncionarioDAO;
+import dao.FuncionarioDAOImpl;
 import entity.Funcionario;
+import exceptions.FuncionarioException;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -21,6 +25,8 @@ public class FuncionarioControl {
 	private StringProperty cpfProperty = new SimpleStringProperty("");
 	private ObjectProperty<LocalDate> nascimentoProperty = new SimpleObjectProperty<>(LocalDate.now());
 	private StringProperty telefoneProperty = new SimpleStringProperty("");
+	
+	private FuncionarioDAO funcionarioDAO = new FuncionarioDAOImpl();
 	
 	
 	public void setFuncionario(Funcionario f) {
@@ -44,15 +50,20 @@ public class FuncionarioControl {
 		return f;
 	}
 	
-	public void adicionar() {
-		getFuncionarios().add(getFuncionario());
+	public void adicionar() throws FuncionarioException {
+//		getFuncionarios().add(getFuncionario());
+		funcionarioDAO.adicionar(getFuncionario());
 	}
-	public void pesquisarPorNome() {
-		for (Funcionario f : getFuncionarios()) { 
-			if (f.getNome().contains(nomeProperty.get())) { 
-				setFuncionario(f);
-			}
-		}	
+	public void pesquisarPorNome() throws FuncionarioException {
+//		for (Funcionario f : getFuncionarios()) { 
+//			if (f.getNome().contains(nomeProperty.get())) { 
+//				setFuncionario(f);
+//			}
+//		}
+		List<Funcionario> lista = funcionarioDAO.pesquisarPorNome(this.getNomeProperty().get());
+		
+		this.funcionarios.clear();
+		this.funcionarios.addAll(lista);
 	}
 	public ObservableList<Funcionario> getFuncionarios() {
 		return funcionarios;

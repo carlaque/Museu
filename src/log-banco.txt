@@ -48,3 +48,66 @@ MariaDB [museu]> show tables;
 +-----------------+
 3 rows in set (0.000 sec)
 
+MariaDB [museu]> show table funcionario
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'funcionario' at line 1
+MariaDB [museu]> clear
+MariaDB [museu]> select * from funcionarios
+    -> ;
+ERROR 1146 (42S02): Table 'museu.funcionarios' doesn't exist
+MariaDB [museu]> clear
+MariaDB [museu]> select * from funcionario;
+Empty set (0.000 sec)
+
+MariaDB [museu]> show funcionario
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'funcionario' at line 1
+MariaDB [museu]> clear
+MariaDB [museu]> SELECT * FROM obra WHERE nome LIKE a AND autor_id = 1
+    -> ;
+ERROR 1054 (42S22): Unknown column 'nome' in 'where clause'
+MariaDB [museu]> clear
+MariaDB [museu]> show tables
+    -> ;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
+| obra            |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [museu]> clear
+MariaDB [museu]> select * from obra;
++----+--------+-----------+---------+----------+
+| id | titulo | descricao | periodo | autor_id |
++----+--------+-----------+---------+----------+
+|  1 | a      | a         | 123124  |        1 |
++----+--------+-----------+---------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [museu]> SELECT * FROM obra WHERE titulo LIKE a AND autor_id = 1;
+ERROR 1054 (42S22): Unknown column 'a' in 'where clause'
+MariaDB [museu]> SELECT * FROM obra WHERE titulo LIKE "a" AND autor_id = 1;
++----+--------+-----------+---------+----------+
+| id | titulo | descricao | periodo | autor_id |
++----+--------+-----------+---------+----------+
+|  1 | a      | a         | 123124  |        1 |
++----+--------+-----------+---------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [museu]> clear
+MariaDB [museu]> select * from autor
+    -> ;
++----+--------+---------------+------------+-------------+
+| id | nome   | nacionalidade | nascimento | falecimento |
++----+--------+---------------+------------+-------------+
+|  1 | Joao   | NULL          | 1988-01-11 | 2000-12-02  |
+|  2 | Joao   | NULL          | 1988-02-12 | 2015-12-02  |
+|  3 | juilio | NULL          | 2020-12-02 | 2020-12-02  |
+|  4 | julia  | NULL          | 2020-12-02 | 2020-12-02  |
++----+--------+---------------+------------+-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [museu]> clear

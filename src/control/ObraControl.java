@@ -1,11 +1,13 @@
 package control;
 
-import entity.Autor;
+import java.util.List;
+
+import dao.ObraDAO;
+import dao.ObraDAOImpl;
 import entity.Obra;
+import exceptions.ObraException;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -20,9 +22,9 @@ public class ObraControl {
 	private StringProperty descricaoProperty = new SimpleStringProperty("");
 	private StringProperty periodoProperty = new SimpleStringProperty("");
 	
-	private ObjectProperty<Autor> autorProperty = new SimpleObjectProperty<>(new Autor());
-	
+	private LongProperty autorIdProperty = new SimpleLongProperty(0);
 
+	private ObraDAO obraDAO = new ObraDAOImpl();
 	
 	public Obra getObra() { 
 		Obra o = new Obra();
@@ -30,7 +32,7 @@ public class ObraControl {
 		o.setTitulo(tituloProperty.get());
 		o.setDescricao(descricaoProperty.get());
 		o.setPeriodo(periodoProperty.get());
-		
+		o.setAutorId((int) autorIdProperty.get());
 		return o;
 	}
 	
@@ -42,19 +44,19 @@ public class ObraControl {
 			tituloProperty.set(o.getTitulo());
 			descricaoProperty.set(o.getDescricao());
 			periodoProperty.set(o.getPeriodo());
+			autorIdProperty.set(o.getAutorId());
 		}
 	}
 	
-	public void adicionar() {
-		getObras().add(getObra());
+	public void adicionar() throws ObraException {
+		obraDAO.adicionar(getObra());
 	}
 	
-	public void pesquisarPorNome() {
-		for (Obra o : getObras()) { 
-			if (o.getTitulo().contains(tituloProperty.get())) { 
-				setObra(o);
-			}
-		}
+	public void pesquisarPorNome()throws ObraException {
+		List<Obra> lista = obraDAO.pesquisarPorNome(this.getTituloProperty().get(), (int) this.getAutorIdProperty().get());
+		
+		this.obras.clear();
+		this.obras.addAll(lista);
 	}
 	
 	
@@ -77,12 +79,10 @@ public class ObraControl {
 	public StringProperty getPeriodoProperty() {
 		return periodoProperty;
 	}
-
-
-	public ObjectProperty<Autor> getAutorProperty() {
-		return autorProperty;
+	
+	public LongProperty getAutorIdProperty() {
+		return autorIdProperty;
 	}
-
 
 	public ObservableList<Obra> getObras() {
 		return obras;

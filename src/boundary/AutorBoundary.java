@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import control.AutorControl;
 import entity.Autor;
 import exceptions.AutorException;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -14,7 +13,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -26,7 +24,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
@@ -43,6 +40,7 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnGerenciarObras = new Button("Gerenciar Obras");
 	
 	private AutorControl control = new AutorControl();
 	private TableView<Autor> table = new TableView<>();
@@ -92,7 +90,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	}
 
 	
-	
 	public AutorBoundary(Principal principal) {
 		this.principal = principal;
 		vincularCampos();
@@ -103,7 +100,7 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 		
 		paneCampos.add(new Label("Id"), 0, 0);
 		paneCampos.add(txtId, 1, 0);
-		
+			
 		paneCampos.add(new Label("Nome"), 0, 1);
 		paneCampos.add(txtNome, 1, 1);
 		
@@ -118,9 +115,11 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnGerenciarObras, 2, 5);
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnGerenciarObras.setOnAction(this);
 		
 		tela.setTop(paneCampos);
 		tela.setCenter(table);
@@ -131,7 +130,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			System.out.println("Botão adicionar foi pressionado");
 			try {
 				control.adicionar();
 			} catch (AutorException e1) {
@@ -139,13 +137,19 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 				new Alert(AlertType.ERROR, "Erro ao adicionar o autor").show();			
 			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			System.out.println("Botão pesquisar foi pressionado");
 			try {
 				control.pesquisarPorNome();
 			} catch (AutorException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o autor").show();
 
+			}
+		}else if (e.getTarget() == btnGerenciarObras) { 
+			if(!txtId.getText().isEmpty()) {
+				this.principal.setAutor(control.getAutor().getId());
+				this.principal.navegarPara("obra");
+			}else {
+				new Alert(AlertType.ERROR, "Selecione um Autor para ver suas Obras").show();
 			}
 		}
 	}
@@ -192,5 +196,6 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	public Pane getTela() {
 		return tela;
 	}
+	
 
 }
