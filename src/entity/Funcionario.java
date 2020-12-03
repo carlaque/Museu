@@ -9,6 +9,7 @@ public class Funcionario {
 	private String cpf;
 	private LocalDate nascimento;
 	private String telefone;
+	
 	public Long getId() {
 		return id;
 	}

@@ -1,12 +1,22 @@
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Visita {
-	
+
+	private Long id;
+
 	private Visitante visitante;
-	
-	private LocalDateTime data;
+
+	private LocalDate data;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Visitante getVisitante() {
 		return visitante;
@@ -16,11 +26,11 @@ public class Visita {
 		this.visitante = visitante;
 	}
 
-	public LocalDateTime getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
