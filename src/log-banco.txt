@@ -1,0 +1,113 @@
+MariaDB [(none)]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 1 row affected (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected (0.003 sec)
+
+Query OK, 0 rows affected (0.003 sec)
+
+ERROR 1072 (42000): Key column 'autor_id' doesn't exist in table
+MariaDB [museu]> show tables
+    -> ;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
++-----------------+
+2 rows in set (0.000 sec)
+
+MariaDB [museu]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CONSTRAINT `fk_obra_autor`
+		FOREIGN KEY (autor_id) REFERENCES autor (id)
+		O...' at line 7
+MariaDB [museu]> source /home/carla/eclipse-workspace/Museu/src/db.sql
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [museu]> show tables;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
+| obra            |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [museu]> show table funcionario
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'funcionario' at line 1
+MariaDB [museu]> clear
+MariaDB [museu]> select * from funcionarios
+    -> ;
+ERROR 1146 (42S02): Table 'museu.funcionarios' doesn't exist
+MariaDB [museu]> clear
+MariaDB [museu]> select * from funcionario;
+Empty set (0.000 sec)
+
+MariaDB [museu]> show funcionario
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'funcionario' at line 1
+MariaDB [museu]> clear
+MariaDB [museu]> SELECT * FROM obra WHERE nome LIKE a AND autor_id = 1
+    -> ;
+ERROR 1054 (42S22): Unknown column 'nome' in 'where clause'
+MariaDB [museu]> clear
+MariaDB [museu]> show tables
+    -> ;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
+| obra            |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [museu]> clear
+MariaDB [museu]> select * from obra;
++----+--------+-----------+---------+----------+
+| id | titulo | descricao | periodo | autor_id |
++----+--------+-----------+---------+----------+
+|  1 | a      | a         | 123124  |        1 |
++----+--------+-----------+---------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [museu]> SELECT * FROM obra WHERE titulo LIKE a AND autor_id = 1;
+ERROR 1054 (42S22): Unknown column 'a' in 'where clause'
+MariaDB [museu]> SELECT * FROM obra WHERE titulo LIKE "a" AND autor_id = 1;
++----+--------+-----------+---------+----------+
+| id | titulo | descricao | periodo | autor_id |
++----+--------+-----------+---------+----------+
+|  1 | a      | a         | 123124  |        1 |
++----+--------+-----------+---------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [museu]> clear
+MariaDB [museu]> select * from autor
+    -> ;
++----+--------+---------------+------------+-------------+
+| id | nome   | nacionalidade | nascimento | falecimento |
++----+--------+---------------+------------+-------------+
+|  1 | Joao   | NULL          | 1988-01-11 | 2000-12-02  |
+|  2 | Joao   | NULL          | 1988-02-12 | 2015-12-02  |
+|  3 | juilio | NULL          | 2020-12-02 | 2020-12-02  |
+|  4 | julia  | NULL          | 2020-12-02 | 2020-12-02  |
++----+--------+---------------+------------+-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [museu]> clear

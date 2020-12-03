@@ -9,6 +9,8 @@ public class Autor {
 	private String nacionalidade; 
 	private LocalDate nascimento;
 	private LocalDate falecimento;
+	//todo: adicionar lista de obras -> apartir de um select?
+	
 	
 	public Long getId() {
 		return id;

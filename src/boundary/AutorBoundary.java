@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import control.AutorControl;
 import entity.Autor;
-import javafx.application.Application;
+import exceptions.AutorException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -13,7 +13,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,13 +23,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LongStringConverter;
 
-public class AutorBoundary extends Application implements EventHandler<ActionEvent>{
-		
+public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
+	
+	private BorderPane tela = new BorderPane();
+	
 	private TextField txtId = new TextField();
 	private TextField txtNome = new TextField();
 	private TextField txtNacionalidade = new TextField();
@@ -37,9 +40,12 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnGerenciarObras = new Button("Gerenciar Obras");
 	
 	private AutorControl control = new AutorControl();
 	private TableView<Autor> table = new TableView<>();
+	
+	private Principal principal;
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos(){ 
@@ -76,20 +82,24 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		
 		table.setItems( control.getAutores() );
 		
+		table.getSelectionModel().selectedItemProperty().addListener(
+				(listener, antigo, novo) -> {
+					control.setAutor(novo);
+				});
+		
 	}
 	
-	@Override
-	public void start(Stage stage) throws Exception {
+	public AutorBoundary(Principal principal) {
+		this.principal = principal;
 		vincularCampos();
 		dateField(txtNascimento);
-		BorderPane bp = new BorderPane();
-		Scene scn = new Scene(bp, 600, 200);
+		dateField(txtFalecimento);
 		
 		GridPane paneCampos = new GridPane();
 		
 		paneCampos.add(new Label("Id"), 0, 0);
 		paneCampos.add(txtId, 1, 0);
-		
+			
 		paneCampos.add(new Label("Nome"), 0, 1);
 		paneCampos.add(txtNome, 1, 1);
 		
@@ -104,24 +114,40 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnGerenciarObras, 2, 5);
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnGerenciarObras.setOnAction(this);
 		
-		bp.setTop(paneCampos);
-		bp.setCenter(table);
-		
-		stage.setScene(scn);
-		stage.setTitle("Cadastro de Autor");
-		stage.show();
+		tela.setTop(paneCampos);
+		tela.setCenter(table);
 	}
 	
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			control.adicionar();
+			try {
+				control.adicionar();
+			} catch (AutorException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao adicionar o autor").show();			
+			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			control.pesquisarPorNome();
+			try {
+				control.pesquisarPorNome();
+			} catch (AutorException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao pesquisar o autor").show();
+
+			}
+		}else if (e.getTarget() == btnGerenciarObras) { 
+			if(!txtId.getText().isEmpty()) {
+				this.principal.setAutor(control.getAutor().getId());
+				this.principal.navegarPara("obra");
+			}else {
+				new Alert(AlertType.ERROR, "Selecione um Autor para ver suas Obras").show();
+			}
 		}
 	}
 	
@@ -161,8 +187,11 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 	    });
 	}
 	
-	public static void main(String[] args) {
-		Application.launch(AutorBoundary.class, args);
+	
+	@Override
+	public Pane getTela() {
+		return tela;
 	}
+	
 
 }
