@@ -77,8 +77,6 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		table.setItems( control.getAutores() );
 		
 	}
-
-	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -118,8 +116,6 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 		stage.show();
 	}
 	
-	
-	
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
@@ -141,7 +137,6 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 	
 	public static void dateField(final TextField textField) {
 	    maxField(textField, 10);
-
 	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -165,8 +160,6 @@ public class AutorBoundary extends Application implements EventHandler<ActionEve
 	        }
 	    });
 	}
-	
-	
 	
 	public static void main(String[] args) {
 		Application.launch(AutorBoundary.class, args);
