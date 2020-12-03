@@ -111,30 +111,3 @@ MariaDB [museu]> select * from autor
 4 rows in set (0.000 sec)
 
 MariaDB [museu]> clear
-MariaDB [museu]> source /home/carla/eclipse-workspace/Museu/src/db.sql
-Query OK, 0 rows affected, 1 warning (0.001 sec)
-
-Database changed
-Query OK, 0 rows affected, 1 warning (0.002 sec)
-
-Query OK, 0 rows affected, 1 warning (0.000 sec)
-
-Query OK, 0 rows affected, 1 warning (0.000 sec)
-
-Query OK, 0 rows affected (0.009 sec)
-
-MariaDB [museu]> show tables
-    -> ;
-+-----------------+
-| Tables_in_museu |
-+-----------------+
-| autor           |
-| funcionario     |
-| obra            |
-| visitante       |
-+-----------------+
-4 rows in set (0.000 sec)
-
-MariaDB [museu]> SELECT * FROM visitante WHERE nome LIKE a
-    -> Ctrl-C -- exit!
-Aborted

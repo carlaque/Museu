@@ -18,6 +18,7 @@ public class Principal extends Application
 	private AutorBoundary autorTela = new AutorBoundary(this);
 	private ObraBoundary obraTela = new ObraBoundary(this);
 	private FuncionarioBoundary funcionarioTela = new FuncionarioBoundary(this);
+	private VisitanteBoundary visitanteTela = new VisitanteBoundary(this);
 	
 	private TelaStrategy tela = autorTela;
 	
@@ -30,6 +31,7 @@ public class Principal extends Application
 	
 //	private MenuItem mnuObra = new MenuItem("Obra");
 	private MenuItem mnuFuncionario = new MenuItem("Funcionario");
+	private MenuItem mnuVisitante = new MenuItem("Visitante");
 	
 //	private MenuItem mnuCreditos = new MenuItem("Creditos");
 	private MenuItem mnuSair = new MenuItem("Sair");
@@ -41,12 +43,13 @@ public class Principal extends Application
 		panePrincipal.setTop(mnuPrincipal);
 		mnuPrincipal.getMenus().addAll(mnuCadastro, mnuAjuda);
 		
-		mnuCadastro.getItems().addAll(mnuContato, mnuFuncionario, mnuSair);
+		mnuCadastro.getItems().addAll(mnuContato, mnuFuncionario, mnuVisitante, mnuSair);
 //		mnuAjuda.getItems().addAll(mnuCreditos);
 		
 		mnuContato.setOnAction(this);
 //		mnuObra.setOnAction(this);
 		mnuFuncionario.setOnAction(this);
+		mnuVisitante.setOnAction(this);
 		
 		mnuSair.setOnAction(this);
 		
@@ -72,8 +75,10 @@ public class Principal extends Application
 //			this.executarComando("obra");
 		} else if (e.getTarget() == mnuFuncionario) { 
 			this.executarComando("funcionario");
+		} else if (e.getTarget() == mnuVisitante) { 
+			this.executarComando("visitante");
 		} 
-		
+
 	}
 	
 	public void telaContext() { 
@@ -94,6 +99,8 @@ public class Principal extends Application
 			tela = obraTela;
 		} else if ("funcionario".equals(cmd)) { 
 			tela = funcionarioTela;
+		} else if ("visitante".equals(cmd)) { 
+			tela = visitanteTela;
 		} 
 		
 		this.telaContext();

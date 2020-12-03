@@ -1,30 +1,39 @@
-package boundary;
-
-import control.TourControl;
-import entity.Tour;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-public class TourBoundary extends Application implements EventHandler<ActionEvent> {
-	
-	private TextField txtId = new TextField();
-	private TextField txtNome = new TextField();
-	private TextField txtData = new TextField();
-	
-	private Button btnAdicionar = new Button("Adicionar");
-	private Button btnPesquisar = new Button("Pesquisar");
-	
-	private TourControl control = new TourControl();
-	private TableView<Tour> table = new TableView<>();
-	
+//package boundary;
+//
+//import java.time.LocalDate;
+//import java.time.format.DateTimeFormatter;
+//
+//import control.TourControl;
+//import entity.Tour;
+//import javafx.application.Application;
+//import javafx.application.Platform;
+//import javafx.beans.binding.Bindings;
+//import javafx.beans.value.ChangeListener;
+//import javafx.beans.value.ObservableValue;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.TableView;
+//import javafx.scene.control.TextField;
+//import javafx.scene.layout.BorderPane;
+//import javafx.scene.layout.Pane;
+//import javafx.stage.Stage;
+//import javafx.util.StringConverter;
+//import javafx.util.converter.LocalDateStringConverter;
+//import javafx.util.converter.LongStringConverter;
+//
+//public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
+//	
+//	private TextField txtId = new TextField();
+//	private TextField txtNome = new TextField();
+//	private TextField txtData = new TextField();
+//	
+//	private Button btnAdicionar = new Button("Adicionar");
+//	private Button btnPesquisar = new Button("Pesquisar");
+//	
+//	private TourControl control = new TourControl();
+//	private TableView<Tour> table = new TableView<>();
+//	
 //	@SuppressWarnings("unchecked")
 //	public void vincularCampos() {
 //
@@ -34,7 +43,7 @@ public class TourBoundary extends Application implements EventHandler<ActionEven
 //		DateTimeFormatter htf = DateTimeFormatter.ofPattern("HH:mm:ss");
 //		
 //		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);
-//		Bindings.bindBidirectional(txtNome.textProperty(), control.get);
+//		Bindings.bindBidirectional(txtNome.textProperty(), control.getNomeProperty());
 //		Bindings.bindBidirectional(txtData.textProperty(), control.getNascimentoProperty(), dateConverter);
 //		
 //		TableColumn<Visitante, String> colCpf = new TableColumn<>("CPF");
@@ -52,12 +61,10 @@ public class TourBoundary extends Application implements EventHandler<ActionEven
 //		
 //		table.setItems(control.getVisitantes());
 //	}
-	
-	public void start(Stage stage) throws Exception {
+//	
+//	public TourBoundary(Principal principal){
 //		vincularCampos();
 //		dateField(txtData);
-//		BorderPane bp = new BorderPane();
-//		Scene scn = new Scene(bp, 600, 200);
 //		
 //		GridPane paneCampos = new GridPane();
 //		
@@ -79,71 +86,73 @@ public class TourBoundary extends Application implements EventHandler<ActionEven
 //		stage.setScene(scn);
 //		stage.setTitle("Cadastro de Tour");
 //		stage.show();
-	}
-
-	@Override
-	public void handle(ActionEvent e) {
-		if (e.getTarget() == btnAdicionar) { 
-			control.adicionar();
-		} else if (e.getTarget() == btnPesquisar) { 
-			control.pesquisarPorId();
-		}
-	}
-	
-	private static void maxField(final TextField textField, final Integer length) {
-	    textField.textProperty().addListener(new ChangeListener<String>() {
-	        @Override
-	        public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-	            if (newValue.length() > length)
-	                textField.setText(oldValue);
-	        }
-	    });
-	}
-	
-	public static void dateField(final TextField textField) {
-	    maxField(textField, 10);
-	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-	            if (newValue.intValue() < 11) {
-	                String value = textField.getText();
-	                value = value.replaceAll("[^0-9]", "");
-	                value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
-	                value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
-	                textField.setText(value);
-	                positionCaret(textField);
-	            }
-	        }
-	    });
-	}
-	
-	public static void horaField(final TextField textField) {
-	    maxField(textField, 10);
-	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-	            if (newValue.intValue() < 11) {
-	                String value = textField.getText();
-	                value = value.replaceAll("[^0-9]", "");
-	                value = value.replaceFirst("(\\d{2})(\\d{2})", "$1:$2");
-	                value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d{2})", "$1:$2:$3");
-	                textField.setText(value);
-	                positionCaret(textField);
-	            }
-	        }
-	    });
-	}
-	
-	private static void positionCaret(final TextField textField) {
-	    Platform.runLater(new Runnable() {
-	        @Override
-	        public void run() {
-	            textField.positionCaret(textField.getText().length());
-	        }
-	    });
-	}
-	
-	public static void main(String[] args) {
-		Application.launch(TourBoundary.class, args);
-	}
-}
+//	}
+//
+//	@Override
+//	public void handle(ActionEvent e) {
+//		if (e.getTarget() == btnAdicionar) { 
+//			control.adicionar();
+//		} else if (e.getTarget() == btnPesquisar) { 
+//			control.pesquisarPorId();
+//		}
+//	}
+//	
+//	private static void maxField(final TextField textField, final Integer length) {
+//	    textField.textProperty().addListener(new ChangeListener<String>() {
+//	        @Override
+//	        public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+//	            if (newValue.length() > length)
+//	                textField.setText(oldValue);
+//	        }
+//	    });
+//	}
+//	
+//	public static void dateField(final TextField textField) {
+//	    maxField(textField, 10);
+//	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
+//	        @Override
+//	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//	            if (newValue.intValue() < 11) {
+//	                String value = textField.getText();
+//	                value = value.replaceAll("[^0-9]", "");
+//	                value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+//	                value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+//	                textField.setText(value);
+//	                positionCaret(textField);
+//	            }
+//	        }
+//	    });
+//	}
+//	
+//	public static void horaField(final TextField textField) {
+//	    maxField(textField, 10);
+//	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
+//	        @Override
+//	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//	            if (newValue.intValue() < 11) {
+//	                String value = textField.getText();
+//	                value = value.replaceAll("[^0-9]", "");
+//	                value = value.replaceFirst("(\\d{2})(\\d{2})", "$1:$2");
+//	                value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d{2})", "$1:$2:$3");
+//	                textField.setText(value);
+//	                positionCaret(textField);
+//	            }
+//	        }
+//	    });
+//	}
+//	
+//	private static void positionCaret(final TextField textField) {
+//	    Platform.runLater(new Runnable() {
+//	        @Override
+//	        public void run() {
+//	            textField.positionCaret(textField.getText().length());
+//	        }
+//	    });
+//	}
+//
+//	@Override
+//	public Pane getTela() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//}

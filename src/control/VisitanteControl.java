@@ -1,8 +1,12 @@
 package control;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import dao.VisitanteDAO;
+import dao.VisitanteDAOImpl;
 import entity.Visitante;
+import exceptions.VisitanteException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,10 +19,10 @@ public class VisitanteControl {
 	private ObservableList<Visitante> visitantes = FXCollections.observableArrayList();
 	
 	private StringProperty cpfProperty = new SimpleStringProperty("");
-	
 	private StringProperty nomeProperty = new SimpleStringProperty("");
-	
 	private ObjectProperty<LocalDate> nascimentoProperty = new SimpleObjectProperty<>(LocalDate.now());
+	
+	private VisitanteDAO visitanteDAO = new VisitanteDAOImpl();
 
 	public Visitante getVisitante() {
 		Visitante v = new Visitante();
@@ -36,47 +40,33 @@ public class VisitanteControl {
 		}
 	}
 	
-	public void adicionar() {
-		getVisitantes().add(getVisitante());
+	public void adicionar() throws VisitanteException {
+//		getVisitantes().add(getVisitante());
+		visitanteDAO.adicionar(getVisitante());
 	}
 	
-	public void pesquisarPorNome() {
-		getVisitantes().forEach(v -> {
-			if (v.getNome().contains(nomeProperty.get())) {
-				setVisitante(v);
-			}
-		});
-	}
-	
-	public ObservableList<Visitante> getVisitantes() {
-		return visitantes;
+	public void pesquisarPorNome() throws VisitanteException  {
+		List<Visitante> lista = visitanteDAO.pesquisarPorNome(this.getNomeProperty().get());
+		
+		this.visitantes.clear();
+		this.visitantes.addAll(lista);
 	}
 
-	public void setVisitantes(ObservableList<Visitante> vistantes) {
-		this.visitantes = vistantes;
+	public ObservableList<Visitante> getVisitantes() {
+		return visitantes;
 	}
 
 	public StringProperty getCpfProperty() {
 		return cpfProperty;
 	}
 
-	public void setCpfProperty(StringProperty cpfProperty) {
-		this.cpfProperty = cpfProperty;
-	}
-
 	public StringProperty getNomeProperty() {
 		return nomeProperty;
-	}
-
-	public void setNomeProperty(StringProperty nomeProperty) {
-		this.nomeProperty = nomeProperty;
 	}
 
 	public ObjectProperty<LocalDate> getNascimentoProperty() {
 		return nascimentoProperty;
 	}
-
-	public void setNascimentoProperty(ObjectProperty<LocalDate> nascimentoProperty) {
-		this.nascimentoProperty = nascimentoProperty;
-	}
+	
+	
 }

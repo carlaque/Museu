@@ -3,6 +3,7 @@ package entity;
 import java.time.LocalDate;
 
 public class Visita {
+	// o ato de visitar 
 
 	private Long id;
 

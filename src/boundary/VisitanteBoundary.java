@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 import control.VisitanteControl;
 import entity.Visitante;
-import javafx.application.Application;
+import exceptions.FuncionarioException;
+import exceptions.VisitanteException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -13,20 +14,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
-public class VisitanteBoundary extends Application implements EventHandler<ActionEvent> {
+public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrategy {
+	
+	private BorderPane tela = new BorderPane();
 	
 	private TextField txtCpf = new TextField();
 	private TextField txtNome = new TextField();
@@ -37,6 +41,8 @@ public class VisitanteBoundary extends Application implements EventHandler<Actio
 	
 	private VisitanteControl control = new VisitanteControl();
 	private TableView<Visitante> table = new TableView<>();
+	
+	private Principal principal;
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos() {
@@ -51,7 +57,7 @@ public class VisitanteBoundary extends Application implements EventHandler<Actio
 		TableColumn<Visitante, String> colCpf = new TableColumn<>("CPF");
 		colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
 		
-		TableColumn<Visitante, String> colNome = new TableColumn<>("NOME");
+		TableColumn<Visitante, String> colNome = new TableColumn<>("Nome");
 		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		
 		TableColumn<Visitante, String> colNascimento = new TableColumn<>("Nascimento");
@@ -64,11 +70,9 @@ public class VisitanteBoundary extends Application implements EventHandler<Actio
 		table.setItems(control.getVisitantes());
 	}
 	
-	public void start(Stage stage) throws Exception {
+	public VisitanteBoundary(Principal principal) {
 		vincularCampos();
 		dateField(txtNascimento);
-		BorderPane bp = new BorderPane();
-		Scene scn = new Scene(bp, 600, 200);
 		
 		GridPane paneCampos = new GridPane();
 		
@@ -81,23 +85,36 @@ public class VisitanteBoundary extends Application implements EventHandler<Actio
 		paneCampos.add(new Label("Nascimento"), 0, 2);
 		paneCampos.add(txtNascimento, 1, 2);
 		
+		paneCampos.add(btnAdicionar, 0, 3);
+		paneCampos.add(btnPesquisar, 1, 3);
+		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
 		
-		bp.setTop(paneCampos);
-		bp.setCenter(table);
+		tela.setTop(paneCampos);
+		tela.setCenter(table);
 		
-		stage.setScene(scn);
-		stage.setTitle("Cadastro de Visitante");
-		stage.show();
 	}
 
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			control.adicionar();
+			System.out.println("Botão adicionar foi pressionado");
+			try {
+				control.adicionar();
+			} catch (VisitanteException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao adicionar o visitante").show();			
+			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			control.pesquisarPorNome();
+			System.out.println("Botão pesquisar foi pressionado");
+			try {
+				control.pesquisarPorNome();
+			} catch (VisitanteException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao pesquisar o visitante").show();
+
+			}
 		}
 	}
 	
@@ -137,8 +154,9 @@ public class VisitanteBoundary extends Application implements EventHandler<Actio
 	        }
 	    });
 	}
-	
-	public static void main(String[] args) {
-		Application.launch(VisitanteBoundary.class, args);
+
+	@Override
+	public Pane getTela() {
+		return tela;
 	}
 }
