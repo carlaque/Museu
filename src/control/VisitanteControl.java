@@ -34,9 +34,11 @@ public class VisitanteControl {
 	
 	public void setVisitante(Visitante v) {
 		if(v != null) {
-			cpfProperty.set(v.getCpf());
+//			cpfProperty.set(v.getCpf());
 			nomeProperty.set(v.getNome());
 			nascimentoProperty.set(v.getNascimento());
+			
+			cpfProperty.set(v.getCpf());
 		}
 	}
 	

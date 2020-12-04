@@ -1,34 +1,16 @@
 package entity;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 public class Tour {
 
 	private Long id;
-
-	private Set<Visitante> visitantes;
-	
 	private LocalDate data;
-	
-	private LocalDate hora;
-	
-	private Funcionario guia;
+//	private LocalDate hora;
+	private Long idFuncionario;
 	
 	public Long getId() {
 		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Set<Visitante> getVisitantes() {
-		return visitantes;
-	}
-
-	public void setVisitantes(Set<Visitante> visitantes) {
-		this.visitantes = visitantes;
 	}
 
 	public LocalDate getData() {
@@ -39,20 +21,16 @@ public class Tour {
 		this.data = data;
 	}
 
-	public LocalDate getHora() {
-		return hora;
+	public Long getIdFuncionario() {
+		return idFuncionario;
 	}
 
-	public void setHora(LocalDate hora) {
-		this.hora = hora;
+	public void setIdFuncionario(Long idFuncionario) {
+		this.idFuncionario = idFuncionario;
 	}
 
-	public Funcionario getGuia() {
-		return guia;
-	}
-
-	public void setGuia(Funcionario guia) {
-		this.guia = guia;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

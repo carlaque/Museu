@@ -19,6 +19,8 @@ public class Principal extends Application
 	private ObraBoundary obraTela = new ObraBoundary(this);
 	private FuncionarioBoundary funcionarioTela = new FuncionarioBoundary(this);
 	private VisitanteBoundary visitanteTela = new VisitanteBoundary(this);
+	private VisitaBoundary visitaTela = new VisitaBoundary(this);
+	private TourBoundary tourTela = new TourBoundary(this);
 	
 	private TelaStrategy tela = autorTela;
 	
@@ -32,6 +34,7 @@ public class Principal extends Application
 //	private MenuItem mnuObra = new MenuItem("Obra");
 	private MenuItem mnuFuncionario = new MenuItem("Funcionario");
 	private MenuItem mnuVisitante = new MenuItem("Visitante");
+	private MenuItem mnuTour = new MenuItem("Tour");
 	
 //	private MenuItem mnuCreditos = new MenuItem("Creditos");
 	private MenuItem mnuSair = new MenuItem("Sair");
@@ -43,13 +46,14 @@ public class Principal extends Application
 		panePrincipal.setTop(mnuPrincipal);
 		mnuPrincipal.getMenus().addAll(mnuCadastro, mnuAjuda);
 		
-		mnuCadastro.getItems().addAll(mnuContato, mnuFuncionario, mnuVisitante, mnuSair);
+		mnuCadastro.getItems().addAll(mnuContato, mnuFuncionario, mnuVisitante, mnuTour, mnuSair);
 //		mnuAjuda.getItems().addAll(mnuCreditos);
 		
 		mnuContato.setOnAction(this);
 //		mnuObra.setOnAction(this);
 		mnuFuncionario.setOnAction(this);
 		mnuVisitante.setOnAction(this);
+		mnuTour.setOnAction(this);
 		
 		mnuSair.setOnAction(this);
 		
@@ -77,6 +81,8 @@ public class Principal extends Application
 			this.executarComando("funcionario");
 		} else if (e.getTarget() == mnuVisitante) { 
 			this.executarComando("visitante");
+		} else if (e.getTarget() == mnuTour) { 
+			this.executarComando("tour");
 		} 
 
 	}
@@ -101,6 +107,10 @@ public class Principal extends Application
 			tela = funcionarioTela;
 		} else if ("visitante".equals(cmd)) { 
 			tela = visitanteTela;
+		} else if ("tour".equals(cmd)) { 
+			tela = tourTela;
+		} else if ("visita".equals(cmd)) { 
+			tela = visitaTela;
 		} 
 		
 		this.telaContext();
@@ -108,5 +118,25 @@ public class Principal extends Application
 
 	public void setAutor(Long id) {
 		this.obraTela.setAutoId(id);
+	}
+
+	public void setCaracteristicaFuncionario(String caract) {
+		this.funcionarioTela.setCaracteristica(caract);
+	}
+
+	public void setIdFuncionario(Long id) {
+		this.tourTela.setIdFuncionario(id);
+	}
+
+	public void setIdTourDasVisitas(long id) {
+		this.visitaTela.setIdTour(id);
+	}
+
+	public void setIdVisitante(String id) {
+		this.visitaTela.setIdVisitante(id);
+	}
+
+	public void setCaracteristicaVisitante(String carac) {
+		this.visitanteTela.setCaracteristica(carac);
 	}
 }

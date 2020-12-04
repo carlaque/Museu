@@ -38,11 +38,14 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnVoltarParaTour = new Button("Voltar para Tour");
 	
 	private VisitanteControl control = new VisitanteControl();
 	private TableView<Visitante> table = new TableView<>();
 	
 	private Principal principal;
+
+	private TextField caracteristica = new TextField();
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos() {
@@ -68,9 +71,15 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 		table.getColumns().addAll(colCpf, colNome, colNascimento);
 		
 		table.setItems(control.getVisitantes());
+		
+		table.getSelectionModel().selectedItemProperty().addListener(
+				(listener, antigo, novo) -> {
+					control.setVisitante(novo);
+				});
 	}
 	
 	public VisitanteBoundary(Principal principal) {
+		this.principal = principal;
 		vincularCampos();
 		dateField(txtNascimento);
 		
@@ -85,9 +94,17 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 		paneCampos.add(new Label("Nascimento"), 0, 2);
 		paneCampos.add(txtNascimento, 1, 2);
 		
-		paneCampos.add(btnAdicionar, 0, 3);
-		paneCampos.add(btnPesquisar, 1, 3);
 		
+		if(this.caracteristica.getText() != "") {
+			paneCampos.add(btnVoltarParaTour, 0, 5);
+			paneCampos.add(btnAdicionar, 1, 5);
+			paneCampos.add(btnPesquisar, 2, 5);
+		}else{
+			paneCampos.add(btnAdicionar, 0, 5);
+			paneCampos.add(btnPesquisar, 1, 5);
+		}
+		
+		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
 		
@@ -99,7 +116,6 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			System.out.println("Botão adicionar foi pressionado");
 			try {
 				control.adicionar();
 			} catch (VisitanteException e1) {
@@ -107,7 +123,6 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 				new Alert(AlertType.ERROR, "Erro ao adicionar o visitante").show();			
 			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			System.out.println("Botão pesquisar foi pressionado");
 			try {
 				control.pesquisarPorNome();
 			} catch (VisitanteException e1) {
@@ -115,6 +130,15 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o visitante").show();
 
 			}
+		}else if (e.getTarget() == btnVoltarParaTour) {
+			System.out.println(control.getVisitante().getCpf());
+			if(!txtNome.getText().isEmpty()) {
+				this.principal.setIdVisitante(control.getVisitante().getCpf());
+				this.principal.navegarPara("visita");
+			}else {
+				new Alert(AlertType.ERROR, "Selecione um Visitante para atribuir a Visita").show();
+			}
+			
 		}
 	}
 	
@@ -159,4 +183,9 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 	public Pane getTela() {
 		return tela;
 	}
+
+	public void setCaracteristica(String caract) {
+		this.caracteristica.setText(caract);
+	}
+
 }

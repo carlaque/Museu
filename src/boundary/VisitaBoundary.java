@@ -1,92 +1,139 @@
 package boundary;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import control.VisitaControl;
-import entity.Visitante;
-import javafx.application.Application;
+import entity.Visita;
+import exceptions.VisitaException;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.util.StringConverter;
+import javafx.util.converter.LocalDateStringConverter;
+import javafx.util.converter.LongStringConverter;
 
-public class VisitaBoundary extends Application implements EventHandler<ActionEvent> {
+public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
+	
+	private BorderPane tela = new BorderPane();
 	
 	private TextField txtId = new TextField();
-	private TextField txtVisitante = new TextField();
+	private TextField txtIdVisitante = new TextField();
+	private TextField txtIdTour = new TextField();
 	private TextField txtData = new TextField();
 	
-	private Button btnAdicionar = new Button("Adicionar");
+	private Button btnVoltarParaTour = new Button("Voltar para Tour");
+	private Button btnAdicionar = new Button("Adicionar ao Tour Selecionado");
 	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnGerenciarVisitante = new Button("Gerenciar Visitante");
 	
 	private VisitaControl control = new VisitaControl();
-	private TableView<Visitante> table = new TableView<>();
+	private TableView<Visita> table = new TableView<>();
 	
-//	@SuppressWarnings("unchecked")
-//	public void vincularCampos() {
-//
-//		StringConverter<? extends Number> idConverter = new LongStringConverter();
-//		StringConverter<LocalDate> dateConverter = new LocalDateStringConverter();
-//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//		
-//		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);
-//		Bindings.bindBidirectional(txtVisitante.textProperty(), control.getVisitanteProperty());
-//		Bindings.bindBidirectional(txtData.textProperty(), control.getDataProperty(), dateConverter);
-//		
-//		TableColumn<Visitante, Long> colId = new TableColumn<>("ID");
-//		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-//		
-//		TableColumn<Visitante, String> colNome = new TableColumn<>("NOME");
-//		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-//		
-//		TableColumn<Visitante, String> colNascimento = new TableColumn<>("Nascimento");
-//		colNascimento.setCellValueFactory(
-//				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getNascimento().format(dtf));
-//		});
-//		
-//		table.getColumns().addAll(colCpf, colNome, colNascimento);
-//		
-//		table.setItems(control.getVisitas());
-//	}
-//	
-	@Override
-	public void start(Stage stage) throws Exception {
-//		vincularCampos();
-//		dateField(txtNascimento);
-//		BorderPane bp = new BorderPane();
-//		Scene scn = new Scene(bp, 600, 200);
-//		
-//		GridPane paneCampos = new GridPane();
-//		
-//		paneCampos.add(new Label("CPF"), 0, 0);
-//		paneCampos.add(txtCpf, 1, 0);
-//		
-//		paneCampos.add(new Label("Nome"), 0, 1);
-//		paneCampos.add(txtNome, 1, 1);
-//		
-//		paneCampos.add(new Label("Nascimento"), 0, 2);
-//		paneCampos.add(txtNascimento, 1, 2);
-//		
-//		btnAdicionar.setOnAction(this);
-//		btnPesquisar.setOnAction(this);
-//		
-//		bp.setTop(paneCampos);
-//		bp.setCenter(table);
-//		
-//		stage.setScene(scn);
-//		stage.setTitle("Cadastro de Visitante");
-//		stage.show();
+	private Principal principal;
+	
+	
+	@SuppressWarnings("unchecked")
+	public void vincularCampos() {
+
+		StringConverter<? extends Number> idConverter = new LongStringConverter();
+		StringConverter<LocalDate> dateConverter = new LocalDateStringConverter();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		Bindings.bindBidirectional(txtId.textProperty(), control.getIdProperty(), (StringConverter<Number>)idConverter);
+		Bindings.bindBidirectional(txtIdVisitante.textProperty(), control.getIdVisitanteProperty(), (StringConverter<Number>)idConverter);
+		Bindings.bindBidirectional(txtIdTour.textProperty(), control.getIdTourProperty(), (StringConverter<Number>)idConverter);
+		Bindings.bindBidirectional(txtData.textProperty(), control.getDataProperty(), dateConverter);
+		
+		TableColumn<Visita, Long> colId = new TableColumn<>("ID");
+		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		
+		TableColumn<Visita, Long> colIdVisitante = new TableColumn<>("ID_Visitante");
+		colIdVisitante.setCellValueFactory(new PropertyValueFactory<>("id_visitante"));
+		
+		TableColumn<Visita, String> colData = new TableColumn<>("Data");
+		colData.setCellValueFactory(
+				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getData().format(dtf));
+		});
+		
+		table.getColumns().addAll(colId, colIdVisitante, colData);
+		
+		table.setItems( control.getVisitas() );
+		
+		table.getSelectionModel().selectedItemProperty().addListener(
+				(listener, antigo, novo) -> {
+					control.setVisita(novo);
+				});
+	}
+	
+	public VisitaBoundary(Principal principal) {
+		this.principal = principal;
+		vincularCampos();
+		dateField(txtData);
+		
+		GridPane paneCampos = new GridPane();
+		
+		paneCampos.add(new Label("ID"), 0, 0);
+		paneCampos.add(txtId, 1, 0);
+		
+		paneCampos.add(new Label("ID Visitante"), 0, 1);
+		paneCampos.add(txtIdVisitante, 1, 1);
+		
+		paneCampos.add(new Label("Data"), 0, 2);
+		paneCampos.add(txtData, 1, 2);
+		
+		paneCampos.add(btnVoltarParaTour, 0, 5);
+		paneCampos.add(btnAdicionar, 1, 5);
+		paneCampos.add(btnPesquisar, 2, 5);
+		paneCampos.add(btnGerenciarVisitante, 3, 5);
+		
+		btnAdicionar.setOnAction(this);
+		btnPesquisar.setOnAction(this);
+		btnVoltarParaTour.setOnAction(this);
+		btnGerenciarVisitante.setOnAction(this);
+		
+		tela.setTop(paneCampos);
+		tela.setCenter(table);
+		
+		
 	}
 
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-			control.adicionar();
+			try {
+				control.adicionar();
+			} catch (VisitaException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao adicionar o visita").show();			
+			}
 		} else if (e.getTarget() == btnPesquisar) { 
-			control.pesquisarPorId();
+			try {
+				control.pesquisarPorId();
+			} catch (VisitaException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao pesquisar o visita").show();
+			}
+		}else if (e.getTarget() == btnVoltarParaTour) {
+			this.principal.navegarPara("tour");
+		}else if (e.getTarget() == btnGerenciarVisitante) {
+			this.principal.setCaracteristicaVisitante("extencao");
+			this.principal.navegarPara("visitante");
 		}
 	}
 	
@@ -126,8 +173,17 @@ public class VisitaBoundary extends Application implements EventHandler<ActionEv
 	        }
 	    });
 	}
-	
-	public static void main(String[] args) {
-		Application.launch(VisitaBoundary.class, args);
+
+	@Override
+	public Pane getTela() {
+		return tela;
+	}
+
+	public void setIdTour(long id) {
+		this.txtIdTour.setText(id + "");
+	}
+
+	public void setIdVisitante(String id) {
+		this.txtIdVisitante.setText(id);
 	}
 }

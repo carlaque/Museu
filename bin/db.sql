@@ -30,5 +30,11 @@ CREATE TABLE IF NOT EXISTS obra (
 		ON UPDATE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS visitante (
+	cpf varchar(11) NOT NULL PRIMARY KEY,
+	nome varchar(100) DEFAULT NULL,
+	nascimento date
+);
+
 
 

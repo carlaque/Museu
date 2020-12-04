@@ -40,11 +40,14 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 	
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnVoltarParaTour = new Button("Voltar para Tour");
 	
 	private FuncionarioControl control = new FuncionarioControl();
 	private TableView<Funcionario> table = new TableView<>();
 	
 	private Principal principal;
+
+	private TextField caracteristica = new TextField();
 	
 	@SuppressWarnings("unchecked")
 	public void vincularCampos() {
@@ -109,9 +112,16 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		paneCampos.add(new Label("Telefone"), 0, 4);
 		paneCampos.add(txtTelefone, 1, 4);
 		
-		paneCampos.add(btnAdicionar, 0, 5);
-		paneCampos.add(btnPesquisar, 1, 5);
+		if(this.caracteristica.getText() != "") {
+			paneCampos.add(btnVoltarParaTour, 0, 5);
+			paneCampos.add(btnAdicionar, 1, 5);
+			paneCampos.add(btnPesquisar, 2, 5);
+		}else{			
+			paneCampos.add(btnAdicionar, 0, 5);
+			paneCampos.add(btnPesquisar, 1, 5);
+		}
 		
+		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
 		
@@ -123,7 +133,6 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 	@Override
 	public void handle(ActionEvent e) {
 		if (e.getTarget() == btnAdicionar) { 
-//			System.out.println("Botão adicionar foi pressionado");
 			try {
 				control.adicionar();
 			} catch (FuncionarioException e1) {
@@ -131,14 +140,20 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 				new Alert(AlertType.ERROR, "Erro ao adicionar o funcionario").show();			
 			}
 		} else if (e.getTarget() == btnPesquisar) { 
-//			System.out.println("Botão pesquisar foi pressionado");
 			try {
 				control.pesquisarPorNome();
 			} catch (FuncionarioException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o funcionario").show();
-
 			}
+		}else if (e.getTarget() == btnVoltarParaTour) {
+			if(!txtId.getText().isEmpty() && !txtNome.getText().isEmpty()) {
+				this.principal.setIdFuncionario(control.getFuncionario().getId());
+				this.principal.navegarPara("tour");
+			}else {
+				new Alert(AlertType.ERROR, "Selecione um Funcionario para atribuir ao Tour").show();
+			}
+			
 		}
 	}
 	
@@ -181,6 +196,10 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 	@Override
 	public Pane getTela() {
 		return tela;
+	}
+
+	public void setCaracteristica(String caract) {
+		this.caracteristica.setText(caract);
 	}
 
 }
