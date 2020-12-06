@@ -43,12 +43,18 @@ public class VisitanteControl {
 	}
 	
 	public void adicionar() throws VisitanteException {
-//		getVisitantes().add(getVisitante());
 		visitanteDAO.adicionar(getVisitante());
 	}
 	
 	public void pesquisarPorNome() throws VisitanteException  {
 		List<Visitante> lista = visitanteDAO.pesquisarPorNome(this.getNomeProperty().get());
+		
+		this.visitantes.clear();
+		this.visitantes.addAll(lista);
+	}
+	
+	public void carregar() throws VisitanteException  {
+		List<Visitante> lista = visitanteDAO.carregar();
 		
 		this.visitantes.clear();
 		this.visitantes.addAll(lista);

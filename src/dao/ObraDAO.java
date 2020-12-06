@@ -9,5 +9,6 @@ public interface ObraDAO {
 	
 	void adicionar(Obra o) throws ObraException;
 	List<Obra> pesquisarPorNome(String nome, int autorId) throws ObraException;
+	List<Obra> carregar() throws ObraException;
 
 }

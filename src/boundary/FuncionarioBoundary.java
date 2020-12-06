@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import control.FuncionarioControl;
 import entity.Funcionario;
+import exceptions.AutorException;
 import exceptions.FuncionarioException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -112,18 +113,16 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		paneCampos.add(new Label("Telefone"), 0, 4);
 		paneCampos.add(txtTelefone, 1, 4);
 		
-		if(this.caracteristica.getText() != "") {
-			paneCampos.add(btnVoltarParaTour, 0, 5);
-			paneCampos.add(btnAdicionar, 1, 5);
-			paneCampos.add(btnPesquisar, 2, 5);
-		}else{			
-			paneCampos.add(btnAdicionar, 0, 5);
-			paneCampos.add(btnPesquisar, 1, 5);
-		}
+		paneCampos.add(btnVoltarParaTour, 0, 5);
+		paneCampos.add(btnAdicionar, 1, 5);
+		paneCampos.add(btnPesquisar, 2, 5);
+		
 		
 		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		
+		btnVoltarParaTour.setVisible(false);
 		
 		tela.setTop(paneCampos);
 		tela.setCenter(table);
@@ -139,6 +138,7 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao adicionar o funcionario").show();			
 			}
+			carregar();
 		} else if (e.getTarget() == btnPesquisar) { 
 			try {
 				control.pesquisarPorNome();
@@ -150,11 +150,14 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 			if(!txtId.getText().isEmpty() && !txtNome.getText().isEmpty()) {
 				this.principal.setIdFuncionario(control.getFuncionario().getId());
 				this.principal.navegarPara("tour");
+				
 			}else {
 				new Alert(AlertType.ERROR, "Selecione um Funcionario para atribuir ao Tour").show();
 			}
 			
 		}
+		
+		
 	}
 	
 	private static void maxField(final TextField textField, final Integer length) {
@@ -200,6 +203,23 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 
 	public void setCaracteristica(String caract) {
 		this.caracteristica.setText(caract);
+		
+		if(caract == "")
+    		btnVoltarParaTour.setVisible(false);
+    	else
+    		btnVoltarParaTour.setVisible(true);
+	}
+	
+	@Override
+	public void carregar(){
+		try {
+			control.carregar();
+		} catch (FuncionarioException e1) {
+			e1.printStackTrace();
+			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();			
+		}
+		
+		
 	}
 
 }

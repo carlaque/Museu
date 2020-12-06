@@ -9,6 +9,6 @@ public interface TourDAO {
 	
 	void adicionar(Tour t) throws TourException;
 	List<Tour> pesquisarPorId(int idTour) throws TourException;
-	List<Tour> carregarTodos() throws TourException;
+	List<Tour> carregar() throws TourException;
 
 }

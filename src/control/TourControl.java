@@ -19,7 +19,6 @@ public class TourControl {
 	private ObservableList<Tour> tours = FXCollections.observableArrayList();
 	
 	private LongProperty idProperty = new SimpleLongProperty();
-	private LongProperty idVisitaProperty = new SimpleLongProperty();
 	private LongProperty idFuncionarioProperty = new SimpleLongProperty();
 	private ObjectProperty<LocalDate> dataProperty = new SimpleObjectProperty<>(LocalDate.now());
 	
@@ -42,7 +41,7 @@ public class TourControl {
 	}
 	
 	public void adicionar() throws TourException {
-		getTours().add(getTour());
+		tourDAO.adicionar(getTour());
 	}
 	
 	public void pesquisarPorId() throws TourException {
@@ -52,8 +51,8 @@ public class TourControl {
 		this.tours.addAll(lista);
 	}
 	
-	public void carregarTodos() throws TourException {
-		List<Tour> lista = tourDAO.carregarTodos();
+	public void carregar() throws TourException {
+		List<Tour> lista = tourDAO.carregar();
 		
 		this.tours.clear();
 		this.tours.addAll(lista);
@@ -65,10 +64,6 @@ public class TourControl {
 
 	public LongProperty getIdProperty() {
 		return idProperty;
-	}
-
-	public LongProperty getIdVisitaProperty() {
-		return idVisitaProperty;
 	}
 
 	public LongProperty getIdFuncionarioProperty() {

@@ -59,6 +59,12 @@ public class ObraControl {
 		this.obras.addAll(lista);
 	}
 	
+	public void carregar()throws ObraException {
+		List<Obra> lista = obraDAO.carregar();
+		
+		this.obras.clear();
+		this.obras.addAll(lista);
+	}
 	
 	
 	public LongProperty getIdProperty() {

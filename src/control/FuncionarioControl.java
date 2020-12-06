@@ -51,20 +51,22 @@ public class FuncionarioControl {
 	}
 	
 	public void adicionar() throws FuncionarioException {
-//		getFuncionarios().add(getFuncionario());
 		funcionarioDAO.adicionar(getFuncionario());
 	}
 	public void pesquisarPorNome() throws FuncionarioException {
-//		for (Funcionario f : getFuncionarios()) { 
-//			if (f.getNome().contains(nomeProperty.get())) { 
-//				setFuncionario(f);
-//			}
-//		}
 		List<Funcionario> lista = funcionarioDAO.pesquisarPorNome(this.getNomeProperty().get());
 		
 		this.funcionarios.clear();
 		this.funcionarios.addAll(lista);
 	}
+	
+	public void carregar() throws FuncionarioException {
+		List<Funcionario> lista = funcionarioDAO.carregar();
+		
+		this.funcionarios.clear();
+		this.funcionarios.addAll(lista);
+	}
+	
 	public ObservableList<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}

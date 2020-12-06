@@ -18,8 +18,7 @@ public class TourDAOImpl implements TourDAO {
 	public void adicionar(Tour v) throws TourException {
 		try {
 			Connection con = ConnectionSingleton.instancia().connection();
-			String sql = "INSERT INTO tour (id, data, funcionario_id) " + 
-			"VALUES (?, ?, ?, ?)"; 
+			String sql = "INSERT INTO tour (id, data, funcionario_id) VALUES (?, ?, ?)"; 
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setLong(1, v.getId());
 			st.setDate(2,java.sql.Date.valueOf(v.getData()));
@@ -38,8 +37,6 @@ public class TourDAOImpl implements TourDAO {
 	public List<Tour> pesquisarPorId( int id) throws TourException {
 		List<Tour> lista = new ArrayList<>();
 		try {
-			
-			// todo : arrumar select de pesquisa
 			Connection con = ConnectionSingleton.instancia().connection();
 			String sql = "SELECT * FROM tour WHERE id = ?";
 			PreparedStatement st = con.prepareStatement(sql);
@@ -61,7 +58,7 @@ public class TourDAOImpl implements TourDAO {
 	}
 	
 	@Override
-	public List<Tour> carregarTodos( ) throws TourException {
+	public List<Tour> carregar() throws TourException {
 		List<Tour> lista = new ArrayList<>();
 		try {
 			Connection con = ConnectionSingleton.instancia().connection();

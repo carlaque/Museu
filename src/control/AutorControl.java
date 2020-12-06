@@ -62,6 +62,13 @@ public class AutorControl {
 		this.autores.addAll(lista);
 	}
 	
+	public void carregar() throws AutorException{
+		List<Autor> lista = autorDAO.carregar(this.getNomeProperty().get());
+		
+		this.autores.clear();
+		this.autores.addAll(lista);
+	}
+	
 	
 	public LongProperty getIdProperty() {
 		return idProperty;

@@ -47,8 +47,8 @@ public class VisitaDAOImpl implements VisitaDAO {
 			while (rs.next()) { 
 				Visita c = new Visita();
 				c.setId(rs.getLong("id"));
-				c.setIdVisitante(rs.getLong("visitante"));
-				c.setIdTour(rs.getLong("tour"));
+				c.setIdVisitante(rs.getLong("visitante_id"));
+				c.setIdTour(rs.getLong("tour_id"));
 				c.setData(rs.getDate("data").toLocalDate());
 				lista.add(c);
 			}
@@ -71,8 +71,32 @@ public class VisitaDAOImpl implements VisitaDAO {
 			while (rs.next()) { 
 				Visita c = new Visita();
 				c.setId(rs.getLong("id"));
-				c.setIdVisitante(rs.getLong("visitante"));
-				c.setIdTour(rs.getLong("tour"));
+				c.setIdVisitante(rs.getLong("visitante_id"));
+				c.setIdTour(rs.getLong("tour_id"));
+				c.setData(rs.getDate("data").toLocalDate());
+				lista.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitaException(e);
+		}
+		return lista;
+	}
+
+	@Override
+	public List<Visita> pesquisarPorTour(Long tourId) throws VisitaException {
+		List<Visita> lista = new ArrayList<>();
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "SELECT * FROM visita WHERE tour_id = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, tourId );
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) { 
+				Visita c = new Visita();
+				c.setId(rs.getLong("id"));
+				c.setIdVisitante(rs.getLong("visitante_id"));
+				c.setIdTour(rs.getLong("tour_id"));
 				c.setData(rs.getDate("data").toLocalDate());
 				lista.add(c);
 			}

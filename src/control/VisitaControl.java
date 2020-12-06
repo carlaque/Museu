@@ -61,6 +61,13 @@ public class VisitaControl {
 		this.visitas.clear();
 		this.visitas.addAll(lista);
 	}
+	
+	public void pesquisarPorIdTour() throws VisitaException {
+		List<Visita> lista = visitaDAO.pesquisarPorTour( getVisita().getIdTour());
+		
+		this.visitas.clear();
+		this.visitas.addAll(lista);
+	}
 
 	public ObservableList<Visita> getVisitas() {
 		return visitas;

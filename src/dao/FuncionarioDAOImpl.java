@@ -60,4 +60,28 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		return lista;
 	}
 
+	@Override
+	public List<Funcionario> carregar() throws FuncionarioException {
+		List<Funcionario> lista = new ArrayList<>();
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "SELECT * FROM funcionario";
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) { 
+				Funcionario f = new Funcionario();
+				f.setId(rs.getLong("id"));
+				f.setNome(rs.getString("nome"));
+				f.setCpf(rs.getString("cpf"));
+				f.setNascimento(rs.getDate("nascimento").toLocalDate());
+				f.setTelefone(rs.getString("telefone"));
+				lista.add(f);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FuncionarioException(e);
+		}
+		return lista;
+	}
+
 }

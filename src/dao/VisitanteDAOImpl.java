@@ -55,4 +55,27 @@ public class VisitanteDAOImpl implements VisitanteDAO {
 		}
 		return lista;
 	}
+
+	@Override
+	public List<Visitante> carregar() throws VisitanteException {
+		List<Visitante> lista = new ArrayList<>();
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "SELECT * FROM visitante ";
+			PreparedStatement st = con.prepareStatement(sql);
+			
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) { 
+				Visitante c = new Visitante();
+				c.setCpf(rs.getString("cpf"));
+				c.setNome(rs.getString("nome"));
+				c.setNascimento(rs.getDate("nascimento").toLocalDate());
+				lista.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitanteException(e);
+		}
+		return lista;
+	}
 }

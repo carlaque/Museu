@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import control.VisitanteControl;
 import entity.Visitante;
 import exceptions.FuncionarioException;
+import exceptions.TourException;
 import exceptions.VisitanteException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -29,100 +30,97 @@ import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
 public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrategy {
-	
+
 	private BorderPane tela = new BorderPane();
-	
+
 	private TextField txtCpf = new TextField();
 	private TextField txtNome = new TextField();
 	private TextField txtNascimento = new TextField();
-	
+
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnVoltarParaTour = new Button("Voltar para Tour");
-	
+
 	private VisitanteControl control = new VisitanteControl();
 	private TableView<Visitante> table = new TableView<>();
-	
+
 	private Principal principal;
 
 	private TextField caracteristica = new TextField();
-	
+
 	@SuppressWarnings("unchecked")
 	public void vincularCampos() {
 
 		StringConverter<LocalDate> dateConverter = new LocalDateStringConverter();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
+
 		Bindings.bindBidirectional(txtCpf.textProperty(), control.getCpfProperty());
 		Bindings.bindBidirectional(txtNome.textProperty(), control.getNomeProperty());
 		Bindings.bindBidirectional(txtNascimento.textProperty(), control.getNascimentoProperty(), dateConverter);
-		
+
 		TableColumn<Visitante, String> colCpf = new TableColumn<>("CPF");
 		colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-		
+
 		TableColumn<Visitante, String> colNome = new TableColumn<>("Nome");
 		colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		
+
 		TableColumn<Visitante, String> colNascimento = new TableColumn<>("Nascimento");
-		colNascimento.setCellValueFactory(
-				(item) -> {return new ReadOnlyStringWrapper(item.getValue().getNascimento().format(dtf));
+		colNascimento.setCellValueFactory((item) -> {
+			return new ReadOnlyStringWrapper(item.getValue().getNascimento().format(dtf));
 		});
-		
+
 		table.getColumns().addAll(colCpf, colNome, colNascimento);
-		
+
 		table.setItems(control.getVisitantes());
-		
-		table.getSelectionModel().selectedItemProperty().addListener(
-				(listener, antigo, novo) -> {
-					control.setVisitante(novo);
-				});
+
+		table.getSelectionModel().selectedItemProperty().addListener((listener, antigo, novo) -> {
+			control.setVisitante(novo);
+		});
 	}
-	
+
 	public VisitanteBoundary(Principal principal) {
 		this.principal = principal;
 		vincularCampos();
 		dateField(txtNascimento);
-		
+
 		GridPane paneCampos = new GridPane();
-		
+
 		paneCampos.add(new Label("CPF"), 0, 0);
 		paneCampos.add(txtCpf, 1, 0);
-		
+
 		paneCampos.add(new Label("Nome"), 0, 1);
 		paneCampos.add(txtNome, 1, 1);
-		
+
 		paneCampos.add(new Label("Nascimento"), 0, 2);
 		paneCampos.add(txtNascimento, 1, 2);
+
+		paneCampos.add(btnVoltarParaTour, 0, 5);
+		paneCampos.add(btnAdicionar, 1, 5);
+		paneCampos.add(btnPesquisar, 2, 5);
 		
+		btnVoltarParaTour.setVisible(false);
 		
-		if(this.caracteristica.getText() != "") {
-			paneCampos.add(btnVoltarParaTour, 0, 5);
-			paneCampos.add(btnAdicionar, 1, 5);
-			paneCampos.add(btnPesquisar, 2, 5);
-		}else{
-			paneCampos.add(btnAdicionar, 0, 5);
-			paneCampos.add(btnPesquisar, 1, 5);
-		}
-		
+
 		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
-		
+
 		tela.setTop(paneCampos);
 		tela.setCenter(table);
-		
+
 	}
 
 	@Override
 	public void handle(ActionEvent e) {
-		if (e.getTarget() == btnAdicionar) { 
+		if (e.getTarget() == btnAdicionar) {
 			try {
 				control.adicionar();
 			} catch (VisitanteException e1) {
 				e1.printStackTrace();
-				new Alert(AlertType.ERROR, "Erro ao adicionar o visitante").show();			
+				new Alert(AlertType.ERROR, "Erro ao adicionar o visitante").show();
 			}
-		} else if (e.getTarget() == btnPesquisar) { 
+			carregar();
+		} else if (e.getTarget() == btnPesquisar) {
 			try {
 				control.pesquisarPorNome();
 			} catch (VisitanteException e1) {
@@ -130,53 +128,53 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o visitante").show();
 
 			}
-		}else if (e.getTarget() == btnVoltarParaTour) {
-			System.out.println(control.getVisitante().getCpf());
-			if(!txtNome.getText().isEmpty()) {
+		} else if (e.getTarget() == btnVoltarParaTour) {
+			if (!txtNome.getText().isEmpty()) {
 				this.principal.setIdVisitante(control.getVisitante().getCpf());
 				this.principal.navegarPara("visita");
-			}else {
+			} else {
 				new Alert(AlertType.ERROR, "Selecione um Visitante para atribuir a Visita").show();
 			}
-			
-		}
-	}
-	
-	private static void maxField(final TextField textField, final Integer length) {
-	    textField.textProperty().addListener(new ChangeListener<String>() {
-	        @Override
-	        public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-	            if (newValue.length() > length)
-	                textField.setText(oldValue);
-	        }
-	    });
-	}
-	
-	public static void dateField(final TextField textField) {
-	    maxField(textField, 10);
 
-	    textField.lengthProperty().addListener(new ChangeListener<Number>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-	            if (newValue.intValue() < 11) {
-	                String value = textField.getText();
-	                value = value.replaceAll("[^0-9]", "");
-	                value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
-	                value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
-	                textField.setText(value);
-	                positionCaret(textField);
-	            }
-	        }
-	    });
+		}
+
 	}
-	
+
+	private static void maxField(final TextField textField, final Integer length) {
+		textField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+				if (newValue.length() > length)
+					textField.setText(oldValue);
+			}
+		});
+	}
+
+	public static void dateField(final TextField textField) {
+		maxField(textField, 10);
+
+		textField.lengthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if (newValue.intValue() < 11) {
+					String value = textField.getText();
+					value = value.replaceAll("[^0-9]", "");
+					value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+					value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+					textField.setText(value);
+					positionCaret(textField);
+				}
+			}
+		});
+	}
+
 	private static void positionCaret(final TextField textField) {
-	    Platform.runLater(new Runnable() {
-	        @Override
-	        public void run() {
-	            textField.positionCaret(textField.getText().length());
-	        }
-	    });
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				textField.positionCaret(textField.getText().length());
+			}
+		});
 	}
 
 	@Override
@@ -186,6 +184,22 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 
 	public void setCaracteristica(String caract) {
 		this.caracteristica.setText(caract);
+		
+		if(caract == "")
+    		btnVoltarParaTour.setVisible(false);
+    	else
+    		btnVoltarParaTour.setVisible(true);
+	}
+
+	@Override
+	public void carregar() {
+		try {
+			control.carregar();
+		} catch (VisitanteException e1) {
+			e1.printStackTrace();
+			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();
+		}
+
 	}
 
 }

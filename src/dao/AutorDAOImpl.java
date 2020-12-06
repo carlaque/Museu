@@ -60,4 +60,28 @@ public class AutorDAOImpl implements AutorDAO {
 		return lista;
 	}
 
+	@Override
+	public List<Autor> carregar(String nome) throws AutorException {
+		List<Autor> lista = new ArrayList<>();
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "SELECT * FROM autor ";
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) { 
+				Autor c = new Autor();
+				c.setId(rs.getLong("id"));
+				c.setNome(rs.getString("nome"));
+				c.setNacionalidade(rs.getString("nacionalidade"));
+				c.setNascimento(rs.getDate("nascimento").toLocalDate());
+				c.setFalecimento(rs.getDate("falecimento").toLocalDate());
+				lista.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AutorException(e);
+		}
+		return lista;
+	}
+
 }

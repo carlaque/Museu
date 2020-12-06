@@ -78,8 +78,10 @@ public class Principal extends Application
 //		} else if (e.getTarget() == mnuObra) { 
 //			this.executarComando("obra");
 		} else if (e.getTarget() == mnuFuncionario) { 
+			setCaracteristicaFuncionario("");
 			this.executarComando("funcionario");
-		} else if (e.getTarget() == mnuVisitante) { 
+		} else if (e.getTarget() == mnuVisitante) {
+			setCaracteristicaVisitante("");
 			this.executarComando("visitante");
 		} else if (e.getTarget() == mnuTour) { 
 			this.executarComando("tour");
@@ -88,6 +90,13 @@ public class Principal extends Application
 	}
 	
 	public void telaContext() { 
+		try {
+			tela.carregar();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		panePrincipal.setCenter(tela.getTela());
 	}
 	
@@ -103,7 +112,7 @@ public class Principal extends Application
 			tela = autorTela;
 		} else if ("obra".equals(cmd)) { 
 			tela = obraTela;
-		} else if ("funcionario".equals(cmd)) { 
+		} else if ("funcionario".equals(cmd)) {	
 			tela = funcionarioTela;
 		} else if ("visitante".equals(cmd)) { 
 			tela = visitanteTela;

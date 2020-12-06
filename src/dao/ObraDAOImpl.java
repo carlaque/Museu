@@ -62,4 +62,29 @@ public class ObraDAOImpl implements ObraDAO {
 		return lista;
 	}
 
+	@Override
+	public List<Obra> carregar() throws ObraException {
+		List<Obra> lista = new ArrayList<>();
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "SELECT * FROM obra";
+			PreparedStatement st = con.prepareStatement(sql);
+			
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) { 
+				Obra c = new Obra();
+				c.setId(rs.getLong("id"));
+				c.setTitulo(rs.getString("titulo"));
+				c.setDescricao(rs.getString("descricao"));
+				c.setPeriodo(rs.getString("periodo"));
+				c.setAutorId(rs.getInt("autor_id"));
+				lista.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ObraException(e);
+		}
+		return lista;
+	}
+
 }

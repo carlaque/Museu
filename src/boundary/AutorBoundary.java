@@ -133,6 +133,7 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao adicionar o autor").show();			
 			}
+			carregar();
 		} else if (e.getTarget() == btnPesquisar) { 
 			try {
 				control.pesquisarPorNome();
@@ -142,13 +143,14 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 
 			}
 		}else if (e.getTarget() == btnGerenciarObras) { 
-			if(!txtId.getText().isEmpty()) {
+			if(control.getAutor().getId() > 0) {
 				this.principal.setAutor(control.getAutor().getId());
 				this.principal.navegarPara("obra");
 			}else {
 				new Alert(AlertType.ERROR, "Selecione um Autor para ver suas Obras").show();
 			}
 		}
+		
 	}
 	
 	private static void maxField(final TextField textField, final Integer length) {
@@ -187,10 +189,20 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	    });
 	}
 	
-	
 	@Override
 	public Pane getTela() {
 		return tela;
+	}
+
+	@Override
+	public void carregar(){
+		try {
+			control.carregar();
+		} catch (AutorException e1) {
+			e1.printStackTrace();
+			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();			
+		}
+
 	}
 	
 

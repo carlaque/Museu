@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import control.TourControl;
 import entity.Tour;
+import exceptions.ObraException;
 import exceptions.TourException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -63,7 +64,7 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
 		TableColumn<Tour, Long> colIdFuncionario = new TableColumn<>("idFuncionario");
-		colId.setCellValueFactory(new PropertyValueFactory<>("idFuncionario"));
+		colIdFuncionario.setCellValueFactory(new PropertyValueFactory<>("idFuncionario"));
 		
 		TableColumn<Tour, String> colData = new TableColumn<>("Data");
 		colData.setCellValueFactory(
@@ -79,7 +80,7 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 					control.setTour(novo);
 				});
 		
-		if(txtId.getText() == "0") txtId.setText("");
+//		if(txtId.getText() == "0") txtId.setText("");
 	}
 	
 	public TourBoundary(Principal principal){
@@ -123,9 +124,10 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao adicionar o tour").show();			
 			}
+			carregar();
 		} else if (e.getTarget() == btnPesquisar) { 
 			try {
-				control.carregarTodos();
+				control.carregar();
 			} catch (TourException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o tour").show();
@@ -136,13 +138,14 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 			this.principal.navegarPara("funcionario");
 		} else if (e.getTarget() == btnGerenciarVisitas) { 
 			
-			if( !txtId.getText().isEmpty() && txtIdFuncionario.getText().isEmpty()) {
+			if(control.getTour().getId() > 0 ) {
 				this.principal.setIdTourDasVisitas(Long.parseLong( txtId.getText() ) );
 				this.principal.navegarPara("visita");
 			}else {
 				new Alert(AlertType.ERROR, "Selecione um Tour para gerenciar suas visitas").show();
 			}
 		}
+		
 		
 	}
 	
@@ -206,5 +209,16 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 
 	public void setIdFuncionario(Long id) {
 		this.txtIdFuncionario.setText(id +"");
+	}
+	
+	@Override
+	public void carregar(){
+		try {
+			control.carregar();
+		} catch (TourException e1) {
+			e1.printStackTrace();
+			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();			
+		}
+
 	}
 }

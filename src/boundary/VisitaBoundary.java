@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import control.VisitaControl;
 import entity.Visita;
+import exceptions.TourException;
 import exceptions.VisitaException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -63,8 +64,8 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		TableColumn<Visita, Long> colId = new TableColumn<>("ID");
 		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
-		TableColumn<Visita, Long> colIdVisitante = new TableColumn<>("ID_Visitante");
-		colIdVisitante.setCellValueFactory(new PropertyValueFactory<>("id_visitante"));
+		TableColumn<Visita, Long> colIdVisitante = new TableColumn<>("Id Visitante");
+		colIdVisitante.setCellValueFactory(new PropertyValueFactory<>("idVisitante"));
 		
 		TableColumn<Visita, String> colData = new TableColumn<>("Data");
 		colData.setCellValueFactory(
@@ -120,14 +121,15 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 				control.adicionar();
 			} catch (VisitaException e1) {
 				e1.printStackTrace();
-				new Alert(AlertType.ERROR, "Erro ao adicionar o visita").show();			
+				new Alert(AlertType.ERROR, "Erro ao adicionar a visita").show();			
 			}
+			carregar();
 		} else if (e.getTarget() == btnPesquisar) { 
 			try {
-				control.pesquisarPorId();
+				control.pesquisarPorIdTour();
 			} catch (VisitaException e1) {
 				e1.printStackTrace();
-				new Alert(AlertType.ERROR, "Erro ao pesquisar o visita").show();
+				new Alert(AlertType.ERROR, "Erro ao pesquisar a visita").show();
 			}
 		}else if (e.getTarget() == btnVoltarParaTour) {
 			this.principal.navegarPara("tour");
@@ -135,6 +137,7 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 			this.principal.setCaracteristicaVisitante("extencao");
 			this.principal.navegarPara("visitante");
 		}
+		
 	}
 	
 	private static void maxField(final TextField textField, final Integer length) {
@@ -185,5 +188,16 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 
 	public void setIdVisitante(String id) {
 		this.txtIdVisitante.setText(id);
+	}
+	
+	@Override
+	public void carregar(){
+		try {
+			control.pesquisarPorIdTour();
+		} catch (VisitaException e1) {
+			e1.printStackTrace();
+			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();			
+		}
+
 	}
 }

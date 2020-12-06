@@ -36,5 +36,31 @@ CREATE TABLE IF NOT EXISTS visitante (
 	nascimento date
 );
 
+CREATE TABLE IF NOT EXISTS tour (
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	data date,
+	funcionario_id int NOT NULL,
+	CONSTRAINT `fk_visita_funcionario`
+		FOREIGN KEY (funcionario_id) REFERENCES funcionario (id)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT
+);
+
+
+CREATE TABLE IF NOT EXISTS visita (
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	visitante_id varchar(11) NOT NULL,
+	CONSTRAINT `fk_visita_visitante`
+		FOREIGN KEY (visitante_id) REFERENCES visitante (cpf)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT,
+	tour_id int NOT NULL,
+	CONSTRAINT `fk_visita_tour`
+		FOREIGN KEY (tour_id) REFERENCES tour (id)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT,
+	data date
+);
+
 
 
