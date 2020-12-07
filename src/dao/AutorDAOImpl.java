@@ -84,4 +84,16 @@ public class AutorDAOImpl implements AutorDAO {
 		return lista;
 	}
 
+	@Override
+	public void update(Autor a) throws AutorException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void remover(Long id) throws AutorException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

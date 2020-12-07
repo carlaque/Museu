@@ -2,7 +2,6 @@ package boundary;
 
 import control.ObraControl;
 import entity.Obra;
-import exceptions.AutorException;
 import exceptions.ObraException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

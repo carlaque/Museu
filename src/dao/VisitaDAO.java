@@ -3,7 +3,6 @@ package dao;
 import java.util.List;
 
 import entity.Visita;
-import exceptions.ObraException;
 import exceptions.VisitaException;
 
 public interface VisitaDAO {

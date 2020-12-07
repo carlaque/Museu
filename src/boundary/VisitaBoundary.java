@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.VisitaControl;
 import entity.Visita;
-import exceptions.TourException;
 import exceptions.VisitaException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

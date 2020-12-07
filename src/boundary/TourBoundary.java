@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.TourControl;
 import entity.Tour;
-import exceptions.ObraException;
 import exceptions.TourException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

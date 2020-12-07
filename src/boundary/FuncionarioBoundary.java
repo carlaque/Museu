@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.FuncionarioControl;
 import entity.Funcionario;
-import exceptions.AutorException;
 import exceptions.FuncionarioException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
