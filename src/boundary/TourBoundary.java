@@ -110,6 +110,8 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnAtualizar.setOnAction(this);
+		btnDeletar.setOnAction(this);
 		btnAdicionarFuncionario.setOnAction(this);
 		btnGerenciarVisitas.setOnAction(this);
 		
@@ -139,6 +141,7 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnAtualizar) {
 			try {
 				control.update();
+				carregar();
 			} catch (TourException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao atualizar o tour").show();
@@ -146,6 +149,7 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnDeletar) {
 			try {
 				control.delete();
+				carregar();
 			} catch (TourException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao deletar o tour").show();

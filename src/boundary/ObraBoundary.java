@@ -109,6 +109,8 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		btnVoltar.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnAtualizar.setOnAction(this);
+		btnDeletar.setOnAction(this);
 
 		tela.setTop(paneCampos);
 		tela.setCenter(table);
@@ -135,6 +137,7 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnAtualizar) {
 			try {
 				control.update();
+				carregar();
 			} catch (ObraException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao atualizar a obra").show();
@@ -142,6 +145,7 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnDeletar) {
 			try {
 				control.delete();
+				carregar();
 			} catch (ObraException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao deletar a obra").show();
