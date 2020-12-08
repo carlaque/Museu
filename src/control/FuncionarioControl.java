@@ -68,16 +68,11 @@ public class FuncionarioControl {
 	}
 	
 	public void update() throws FuncionarioException {
-		Funcionario f = new Funcionario();
-		f.setId(idProperty.get());
-		f.setNome(nomeProperty.get());
-		f.setNascimento(nascimentoProperty.get());
-		f.setTelefone(telefoneProperty.get());
-		funcionarioDAO.update(f);
+		funcionarioDAO.update(getFuncionario());
 	}
 	
 	public void delete() throws FuncionarioException {
-		funcionarioDAO.delete(idProperty.get());
+		funcionarioDAO.delete(getFuncionario().getId());
 	}
 	
 	public ObservableList<Funcionario> getFuncionarios() {

@@ -70,16 +70,11 @@ public class VisitaControl {
 	}
 	
 	public void update() throws VisitaException {
-		Visita v = new Visita();
-		v.setId(idProperty.get());
-		v.setIdVisitante(idVisitanteProperty.get());
-		v.setIdTour(idTourProperty.get());
-		v.setData(dataProperty.get());
-		visitaDAO.update(v);
+		visitaDAO.update(getVisita());
 	}
 	
 	public void delete() throws VisitaException {
-		visitaDAO.delete(idProperty.get());
+		visitaDAO.delete(getVisita().getId());
 	}
 	
 	public ObservableList<Visita> getVisitas() {

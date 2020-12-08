@@ -60,15 +60,11 @@ public class VisitanteControl {
 	}
 	
 	public void update() throws VisitanteException {
-		Visitante v = new Visitante();
-		v.setCpf(cpfProperty.get());
-		v.setNome(nomeProperty.get());
-		v.setNascimento(nascimentoProperty.get());
-		visitanteDAO.update(v);
+		visitanteDAO.update(getVisitante());
 	}
 
 	public void delete() throws VisitanteException {
-		visitanteDAO.delete(cpfProperty.get());
+		visitanteDAO.delete(getVisitante().getCpf());
 	}
 	
 	public ObservableList<Visitante> getVisitantes() {

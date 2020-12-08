@@ -69,17 +69,11 @@ public class AutorControl {
 	}
 	
 	public void update() throws AutorException {
-		Autor a = new Autor();
-		a.setId(idProperty.get());
-		a.setNome(nomeProperty.get());
-		a.setNacionalidade(nacionalidadeProperty.get());
-		a.setNascimento(nascimentoProperty.get());
-		a.setFalecimento(falecimentoProperty.get());
-		autorDAO.update(a);
+		autorDAO.update(getAutor());
 	}
 	
 	public void delete() throws AutorException {
-		autorDAO.delete(idProperty.get());
+		autorDAO.delete(getAutor().getId());
 	}
 	
 	public LongProperty getIdProperty() {
