@@ -55,11 +55,22 @@ public class VisitanteControl {
 	
 	public void carregar() throws VisitanteException  {
 		List<Visitante> lista = visitanteDAO.carregar();
-		
 		this.visitantes.clear();
 		this.visitantes.addAll(lista);
 	}
+	
+	public void update() throws VisitanteException {
+		Visitante v = new Visitante();
+		v.setCpf(cpfProperty.get());
+		v.setNome(nomeProperty.get());
+		v.setNascimento(nascimentoProperty.get());
+		visitanteDAO.update(v);
+	}
 
+	public void delete() throws VisitanteException {
+		visitanteDAO.delete(cpfProperty.get());
+	}
+	
 	public ObservableList<Visitante> getVisitantes() {
 		return visitantes;
 	}

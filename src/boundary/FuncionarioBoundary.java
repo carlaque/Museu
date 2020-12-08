@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.FuncionarioControl;
 import entity.Funcionario;
-import exceptions.AutorException;
 import exceptions.FuncionarioException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -42,6 +41,8 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnVoltarParaTour = new Button("Voltar para Tour");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 	
 	private FuncionarioControl control = new FuncionarioControl();
 	private TableView<Funcionario> table = new TableView<>();
@@ -113,9 +114,11 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		paneCampos.add(new Label("Telefone"), 0, 4);
 		paneCampos.add(txtTelefone, 1, 4);
 		
-		paneCampos.add(btnVoltarParaTour, 0, 5);
-		paneCampos.add(btnAdicionar, 1, 5);
-		paneCampos.add(btnPesquisar, 2, 5);
+		paneCampos.add(btnAdicionar, 0, 5);
+		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
+		paneCampos.add(btnVoltarParaTour, 2, 6);
 		
 		
 		btnVoltarParaTour.setOnAction(this);
@@ -146,7 +149,21 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o funcionario").show();
 			}
-		}else if (e.getTarget() == btnVoltarParaTour) {
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (FuncionarioException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar o funcionario").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (FuncionarioException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar o funcionario").show();
+			}
+		} else if (e.getTarget() == btnVoltarParaTour) {
 			if(!txtId.getText().isEmpty() && !txtNome.getText().isEmpty()) {
 				this.principal.setIdFuncionario(control.getFuncionario().getId());
 				this.principal.navegarPara("tour");

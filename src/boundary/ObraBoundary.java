@@ -2,7 +2,6 @@ package boundary;
 
 import control.ObraControl;
 import entity.Obra;
-import exceptions.AutorException;
 import exceptions.ObraException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -40,6 +39,8 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnVoltar = new Button("Voltar para Autores");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 
 	private ObraControl control = new ObraControl();
 	private TableView<Obra> table = new TableView<>();
@@ -99,9 +100,11 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		paneCampos.add(new Label("Periodo"), 0, 3);
 		paneCampos.add(txtPeriodo, 1, 3);
 
-		paneCampos.add(btnVoltar, 0, 5);
-		paneCampos.add(btnAdicionar, 1, 5);
-		paneCampos.add(btnPesquisar, 2, 5);
+		paneCampos.add(btnAdicionar, 0, 5);
+		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
+		paneCampos.add(btnVoltar, 2, 6);
 
 		btnVoltar.setOnAction(this);
 		btnAdicionar.setOnAction(this);
@@ -128,6 +131,20 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar a obra").show();
 
+			}
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (ObraException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar a obra").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (ObraException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar a obra").show();
 			}
 		} else if (e.getTarget() == btnVoltar) {
 			this.principal.navegarPara("autor");

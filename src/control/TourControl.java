@@ -57,7 +57,19 @@ public class TourControl {
 		this.tours.clear();
 		this.tours.addAll(lista);
 	}
-
+	
+	public void update() throws TourException {
+		Tour t = new Tour();
+		t.setId(idProperty.get());		
+		t.setIdFuncionario(idFuncionarioProperty.get());
+		t.setData(dataProperty.get());
+		tourDAO.update(t);
+	}
+	
+	public void delete() throws TourException {
+		tourDAO.delete(idProperty.get());
+	}
+	
 	public ObservableList<Tour> getTours() {
 		return tours;
 	}

@@ -3,7 +3,6 @@ package dao;
 import java.util.List;
 
 import entity.Visita;
-import exceptions.ObraException;
 import exceptions.VisitaException;
 
 public interface VisitaDAO {
@@ -12,5 +11,6 @@ public interface VisitaDAO {
 	List<Visita> pesquisarPorId(Long id) throws VisitaException;
 	List<Visita> pesquisarPorVisitante(Long visitanteId) throws VisitaException;
 	List<Visita> pesquisarPorTour(Long tourId) throws VisitaException;
-
+	void update(Visita v) throws VisitaException;
+	void delete(Long id) throws VisitaException;
 }

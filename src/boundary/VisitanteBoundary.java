@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.VisitanteControl;
 import entity.Visitante;
-import exceptions.FuncionarioException;
-import exceptions.TourException;
 import exceptions.VisitanteException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -16,12 +14,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -40,6 +38,8 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnVoltarParaTour = new Button("Voltar para Tour");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 
 	private VisitanteControl control = new VisitanteControl();
 	private TableView<Visitante> table = new TableView<>();
@@ -94,9 +94,11 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 		paneCampos.add(new Label("Nascimento"), 0, 2);
 		paneCampos.add(txtNascimento, 1, 2);
 
-		paneCampos.add(btnVoltarParaTour, 0, 5);
-		paneCampos.add(btnAdicionar, 1, 5);
-		paneCampos.add(btnPesquisar, 2, 5);
+		paneCampos.add(btnAdicionar, 0, 5);
+		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
+		paneCampos.add(btnVoltarParaTour, 2, 6);
 		
 		btnVoltarParaTour.setVisible(false);
 		
@@ -127,6 +129,20 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o visitante").show();
 
+			}
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (VisitanteException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar o visitante").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (VisitanteException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar o visitante").show();
 			}
 		} else if (e.getTarget() == btnVoltarParaTour) {
 			if (!txtNome.getText().isEmpty()) {

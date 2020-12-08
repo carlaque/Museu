@@ -79,5 +79,36 @@ public class TourDAOImpl implements TourDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public void update(Tour t) throws TourException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE tour SET data=?, funcionario_id=? WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setDate(1, java.sql.Date.valueOf(t.getData()));
+			st.setLong(2,  t.getIdFuncionario());
+			st.setLong(3, t.getId());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TourException(e);
+		}
+	}
 
+	@Override
+	public void delete(Long id) throws TourException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM tour WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, id);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TourException(e);
+		}
+	}
 }

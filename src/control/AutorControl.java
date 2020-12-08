@@ -33,12 +33,11 @@ public class AutorControl {
 		Autor a = new Autor();
 		a.setId(idProperty.get());
 		a.setNome(nomeProperty.get());
+		a.setNacionalidade(nacionalidadeProperty.get());
 		a.setNascimento(nascimentoProperty.get());
 		a.setFalecimento(falecimentoProperty.get());
 		return a;
 	}
-	
-	
 	
 	public void setAutor(Autor a) { 
 		if (a != null)  { 
@@ -69,6 +68,19 @@ public class AutorControl {
 		this.autores.addAll(lista);
 	}
 	
+	public void update() throws AutorException {
+		Autor a = new Autor();
+		a.setId(idProperty.get());
+		a.setNome(nomeProperty.get());
+		a.setNacionalidade(nacionalidadeProperty.get());
+		a.setNascimento(nascimentoProperty.get());
+		a.setFalecimento(falecimentoProperty.get());
+		autorDAO.update(a);
+	}
+	
+	public void delete() throws AutorException {
+		autorDAO.delete(idProperty.get());
+	}
 	
 	public LongProperty getIdProperty() {
 		return idProperty;

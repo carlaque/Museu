@@ -68,7 +68,20 @@ public class VisitaControl {
 		this.visitas.clear();
 		this.visitas.addAll(lista);
 	}
-
+	
+	public void update() throws VisitaException {
+		Visita v = new Visita();
+		v.setId(idProperty.get());
+		v.setIdVisitante(idVisitanteProperty.get());
+		v.setIdTour(idTourProperty.get());
+		v.setData(dataProperty.get());
+		visitaDAO.update(v);
+	}
+	
+	public void delete() throws VisitaException {
+		visitaDAO.delete(idProperty.get());
+	}
+	
 	public ObservableList<Visita> getVisitas() {
 		return visitas;
 	}

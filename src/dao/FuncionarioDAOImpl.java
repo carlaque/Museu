@@ -15,17 +15,17 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	}
 	
 	@Override
-	public void adicionar(Funcionario a) throws FuncionarioException {
+	public void adicionar(Funcionario f) throws FuncionarioException {
 		try {
 			Connection con = ConnectionSingleton.instancia().connection();
 			String sql = "INSERT INTO funcionario (id, nome, cpf, nascimento, telefone) " + 
 			"VALUES (?, ?, ?, ?, ?)"; 
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setLong(1, a.getId());
-			st.setString(2, a.getNome());
-			st.setString(3, a.getCpf());
-			st.setDate(4,java.sql.Date.valueOf(a.getNascimento()));
-			st.setString(5,  a.getTelefone());
+			st.setLong(1, f.getId());
+			st.setString(2, f.getNome());
+			st.setString(3, f.getCpf());
+			st.setDate(4,java.sql.Date.valueOf(f.getNascimento()));
+			st.setString(5,  f.getTelefone());
 			st.executeUpdate();
 			con.close();
 		} catch (SQLException e) {
@@ -82,6 +82,40 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			throw new FuncionarioException(e);
 		}
 		return lista;
+	}
+
+	@Override
+	public void update(Funcionario f) throws FuncionarioException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE funcionario SET nome=?, cpf=?, nascimento=?, telefone=? WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, f.getNome());
+			st.setString(2,  f.getCpf());
+			st.setDate(3, java.sql.Date.valueOf(f.getNascimento()));
+			st.setString(4, f.getTelefone());
+			st.setLong(5, f.getId());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FuncionarioException(e);
+		}
+	}
+
+	@Override
+	public void delete(Long id) throws FuncionarioException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM funcionario WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, id);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FuncionarioException(e);
+		}
 	}
 
 }

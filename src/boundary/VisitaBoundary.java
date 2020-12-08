@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import control.VisitaControl;
 import entity.Visita;
-import exceptions.TourException;
 import exceptions.VisitaException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -42,6 +41,8 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 	private Button btnAdicionar = new Button("Adicionar ao Tour Selecionado");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnGerenciarVisitante = new Button("Gerenciar Visitante");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 	
 	private VisitaControl control = new VisitaControl();
 	private TableView<Visita> table = new TableView<>();
@@ -98,10 +99,12 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		paneCampos.add(new Label("Data"), 0, 2);
 		paneCampos.add(txtData, 1, 2);
 		
-		paneCampos.add(btnVoltarParaTour, 0, 5);
-		paneCampos.add(btnAdicionar, 1, 5);
-		paneCampos.add(btnPesquisar, 2, 5);
-		paneCampos.add(btnGerenciarVisitante, 3, 5);
+		paneCampos.add(btnAdicionar, 0, 5);
+		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
+		paneCampos.add(btnGerenciarVisitante, 2, 5);
+		paneCampos.add(btnVoltarParaTour, 2, 6);
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
@@ -131,7 +134,21 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar a visita").show();
 			}
-		}else if (e.getTarget() == btnVoltarParaTour) {
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (VisitaException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar a visita").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (VisitaException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar a visita").show();
+			}
+		} else if (e.getTarget() == btnVoltarParaTour) {
 			this.principal.navegarPara("tour");
 		}else if (e.getTarget() == btnGerenciarVisitante) {
 			this.principal.setCaracteristicaVisitante("extencao");

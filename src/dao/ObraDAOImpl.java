@@ -86,5 +86,38 @@ public class ObraDAOImpl implements ObraDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public void update(Obra o) throws ObraException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE obra SET titulo=?, descricao=?, periodo=?, autor_id=? WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, o.getTitulo());
+			st.setString(2,  o.getDescricao());
+			st.setString(3,o.getPeriodo());
+			st.setLong(4, o.getAutorId());
+			st.setLong(5, o.getId());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ObraException(e);
+		}
+	}
 
+	@Override
+	public void delete(Long id) throws ObraException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM obra WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, id);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ObraException(e);
+		}
+	}
 }
