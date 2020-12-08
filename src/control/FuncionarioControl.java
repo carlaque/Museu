@@ -30,7 +30,6 @@ public class FuncionarioControl {
 	
 	
 	public void setFuncionario(Funcionario f) {
-		
 		if (f != null)  { 
 			idProperty.set(f.getId());
 			nomeProperty.set(f.getNome());
@@ -38,13 +37,13 @@ public class FuncionarioControl {
 			nascimentoProperty.set(f.getNascimento());
 			telefoneProperty.set(f.getTelefone());
 		}
-		
 	}
 	
 	public Funcionario getFuncionario() { 
 		Funcionario f = new Funcionario();
 		f.setId(idProperty.get());
 		f.setNome(nomeProperty.get());
+		f.setCpf(cpfProperty.get());
 		f.setNascimento(nascimentoProperty.get());
 		f.setTelefone(telefoneProperty.get());
 		return f;

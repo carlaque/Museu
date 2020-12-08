@@ -108,6 +108,8 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnAtualizar.setOnAction(this);
+		btnDeletar.setOnAction(this);
 		btnVoltarParaTour.setOnAction(this);
 		btnGerenciarVisitante.setOnAction(this);
 		
@@ -137,6 +139,7 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnAtualizar) {
 			try {
 				control.update();
+				carregar();
 			} catch (VisitaException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao atualizar a visita").show();
@@ -144,6 +147,7 @@ public class VisitaBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		} else if (e.getTarget() == btnDeletar) {
 			try {
 				control.delete();
+				carregar();
 			} catch (VisitaException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao deletar a visita").show();

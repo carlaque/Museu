@@ -124,6 +124,8 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
+		btnAtualizar.setOnAction(this);
+		btnDeletar.setOnAction(this);
 		
 		btnVoltarParaTour.setVisible(false);
 		
@@ -152,6 +154,7 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		} else if (e.getTarget() == btnAtualizar) {
 			try {
 				control.update();
+				carregar();
 			} catch (FuncionarioException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao atualizar o funcionario").show();
@@ -159,6 +162,7 @@ public class FuncionarioBoundary implements EventHandler<ActionEvent>, TelaStrat
 		} else if (e.getTarget() == btnDeletar) {
 			try {
 				control.delete();
+				carregar();
 			} catch (FuncionarioException e1) {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao deletar o funcionario").show();

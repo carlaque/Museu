@@ -219,3 +219,45 @@ mysql> select * from autor;
 1 row in set (0.00 sec)
 
 mysql> quit
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Consultorio        |
+| EMPRESA            |
+| ESCOLA             |
+| information_schema |
+| museu              |
+| mysql              |
+| nota_fiscal        |
+| performance_schema |
+| sys                |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> use museu
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from funcionario
+    -> ;
++----+-------+------+------------+----------+
+| id | nome  | cpf  | nascimento | telefone |
++----+-------+------+------------+----------+
+|  1 | sdkjh | NULL | 2020-12-08 | 25526562 |
++----+-------+------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from funcionario;
+Empty set (0.00 sec)
+
+mysql> select * from funcionario;
++----+-------+------------+------------+----------+
+| id | nome  | cpf        | nascimento | telefone |
++----+-------+------------+------------+----------+
+|  1 | sogho | 1111111111 | 2020-12-08 | 25526562 |
++----+-------+------------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> quit
