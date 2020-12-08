@@ -67,6 +67,19 @@ public class FuncionarioControl {
 		this.funcionarios.addAll(lista);
 	}
 	
+	public void update() throws FuncionarioException {
+		Funcionario f = new Funcionario();
+		f.setId(idProperty.get());
+		f.setNome(nomeProperty.get());
+		f.setNascimento(nascimentoProperty.get());
+		f.setTelefone(telefoneProperty.get());
+		funcionarioDAO.update(f);
+	}
+	
+	public void delete() throws FuncionarioException {
+		funcionarioDAO.delete(idProperty.get());
+	}
+	
 	public ObservableList<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
@@ -90,8 +103,4 @@ public class FuncionarioControl {
 	public StringProperty getTelefoneProperty() {
 		return telefoneProperty;
 	}
-
-	
-	
-
 }

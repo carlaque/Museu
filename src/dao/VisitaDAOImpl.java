@@ -106,5 +106,37 @@ public class VisitaDAOImpl implements VisitaDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public void update(Visita v) throws VisitaException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE visita SET visitante_id=?, tour_id=?, data=? WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, v.getIdVisitante());
+			st.setLong(2,  v.getIdTour());
+			st.setDate(3,java.sql.Date.valueOf(v.getData()));
+			st.setLong(4, v.getId());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitaException(e);
+		}
+	}
 
+	@Override
+	public void delete(Long id) throws VisitaException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM visita WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, id);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitaException(e);
+		}
+	}
 }

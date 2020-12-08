@@ -32,7 +32,6 @@ public class AutorDAOImpl implements AutorDAO {
 			e.printStackTrace();
 			throw new AutorException(e);
 		}
-
 	}
 
 	@Override
@@ -86,14 +85,35 @@ public class AutorDAOImpl implements AutorDAO {
 
 	@Override
 	public void update(Autor a) throws AutorException {
-		// TODO Auto-generated method stub
-		
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE autor SET nome=?, nacionalidade=?, nascimento=?, falecimento=? WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, a.getNome());
+			st.setString(2,  a.getNacionalidade());
+			st.setDate(3,java.sql.Date.valueOf(a.getNascimento()));
+			st.setDate(4, java.sql.Date.valueOf(a.getFalecimento()));
+			st.setLong(5, a.getId());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AutorException(e);
+		}
 	}
 
 	@Override
-	public void remover(Long id) throws AutorException {
-		// TODO Auto-generated method stub
-		
+	public void delete(Long id) throws AutorException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM autor WHERE id=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setLong(1, id);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AutorException(e);
+		}
 	}
-
 }

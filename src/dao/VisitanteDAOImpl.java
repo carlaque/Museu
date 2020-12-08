@@ -78,4 +78,36 @@ public class VisitanteDAOImpl implements VisitanteDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public void update(Visitante v) throws VisitanteException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "UPDATE visitante SET nome=?, nascimento=? WHERE cpf=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, v.getNome());
+			st.setDate(2,java.sql.Date.valueOf(v.getNascimento()));
+			st.setString(3, v.getCpf());
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitanteException(e);
+		}
+	}
+
+	@Override
+	public void delete(String cpf) throws VisitanteException {
+		try {
+			Connection con = ConnectionSingleton.instancia().connection();
+			String sql = "DELETE FROM visitante WHERE cpf=?"; 
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, cpf);
+			st.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new VisitanteException(e);
+		}
+	}
 }

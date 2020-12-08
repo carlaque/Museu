@@ -138,3 +138,84 @@ MariaDB [museu]> show tables
 MariaDB [museu]> SELECT * FROM visitante WHERE nome LIKE a
     -> Ctrl-C -- exit!
 Aborted
+mysql> source /home/dev/Documentos/dev/Museu/Museu/src/db.sql
+Query OK, 1 row affected (0.15 sec)
+
+Database changed
+Query OK, 0 rows affected (0.17 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| Consultorio        |
+| EMPRESA            |
+| ESCOLA             |
+| information_schema |
+| museu              |
+| mysql              |
+| nota_fiscal        |
+| performance_schema |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!
+Aborted
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Consultorio        |
+| EMPRESA            |
+| ESCOLA             |
+| information_schema |
+| museu              |
+| mysql              |
+| nota_fiscal        |
+| performance_schema |
+| sys                |
++--------------------+
+9 rows in set (0.10 sec)
+
+mysql> use museo
+ERROR 1049 (42000): Unknown database 'museo'
+mysql> use museu
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables
+    -> ;
++-----------------+
+| Tables_in_museu |
++-----------------+
+| autor           |
+| funcionario     |
+| obra            |
+| tour            |
+| visita          |
+| visitante       |
++-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from autor;
++----+--------+---------------+------------+-------------+
+| id | nome   | nacionalidade | nascimento | falecimento |
++----+--------+---------------+------------+-------------+
+|  1 | UKFGVU | fikghf        | 1993-11-30 | 2019-05-08  |
++----+--------+---------------+------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> quit

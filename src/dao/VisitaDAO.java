@@ -11,5 +11,6 @@ public interface VisitaDAO {
 	List<Visita> pesquisarPorId(Long id) throws VisitaException;
 	List<Visita> pesquisarPorVisitante(Long visitanteId) throws VisitaException;
 	List<Visita> pesquisarPorTour(Long tourId) throws VisitaException;
-
+	void update(Visita v) throws VisitaException;
+	void delete(Long id) throws VisitaException;
 }

@@ -40,6 +40,8 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnAdicionarFuncionario = new Button("Adicionar Funcionario");
 	private Button btnGerenciarVisitas = new Button("Gerenciar Visitas");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 	
 	private TourControl control = new TourControl();
 	private TableView<Tour> table = new TableView<>();
@@ -100,9 +102,11 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
 		
-		paneCampos.add(btnAdicionarFuncionario, 2, 5);
-		paneCampos.add(btnGerenciarVisitas, 3, 5);
+		paneCampos.add(btnAdicionarFuncionario,2, 5);
+		paneCampos.add(btnGerenciarVisitas, 2, 6);
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
@@ -131,6 +135,20 @@ public class TourBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 				e1.printStackTrace();
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o tour").show();
 
+			}
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (TourException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar o tour").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (TourException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar o tour").show();
 			}
 		} else if (e.getTarget() == btnAdicionarFuncionario) { 
 			this.principal.setCaracteristicaFuncionario("extencao");

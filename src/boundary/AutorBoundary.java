@@ -41,6 +41,8 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnPesquisar = new Button("Pesquisar");
 	private Button btnGerenciarObras = new Button("Gerenciar Obras");
+	private Button btnAtualizar = new Button("Atualizar");
+	private Button btnDeletar = new Button("Deletar");
 	
 	private AutorControl control = new AutorControl();
 	private TableView<Autor> table = new TableView<>();
@@ -114,7 +116,9 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 		
 		paneCampos.add(btnAdicionar, 0, 5);
 		paneCampos.add(btnPesquisar, 1, 5);
-		paneCampos.add(btnGerenciarObras, 2, 5);
+		paneCampos.add(btnAtualizar, 0, 6);
+		paneCampos.add(btnDeletar, 1, 6);
+		paneCampos.add(btnGerenciarObras, 2, 6);
 		
 		btnAdicionar.setOnAction(this);
 		btnPesquisar.setOnAction(this);
@@ -142,7 +146,21 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 				new Alert(AlertType.ERROR, "Erro ao pesquisar o autor").show();
 
 			}
-		}else if (e.getTarget() == btnGerenciarObras) { 
+		} else if (e.getTarget() == btnAtualizar) {
+			try {
+				control.update();
+			} catch (AutorException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao atualizar o autor").show();
+			}
+		} else if (e.getTarget() == btnDeletar) {
+			try {
+				control.delete();
+			} catch (AutorException e1) {
+				e1.printStackTrace();
+				new Alert(AlertType.ERROR, "Erro ao deletar o autor").show();
+			}
+		} else if (e.getTarget() == btnGerenciarObras) { 
 			if(control.getAutor().getId() > 0) {
 				this.principal.setAutor(control.getAutor().getId());
 				this.principal.navegarPara("obra");
@@ -204,6 +222,4 @@ public class AutorBoundary implements EventHandler<ActionEvent>, TelaStrategy{
 		}
 
 	}
-	
-
 }
