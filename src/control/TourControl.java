@@ -59,15 +59,11 @@ public class TourControl {
 	}
 	
 	public void update() throws TourException {
-		Tour t = new Tour();
-		t.setId(idProperty.get());		
-		t.setIdFuncionario(idFuncionarioProperty.get());
-		t.setData(dataProperty.get());
-		tourDAO.update(t);
+		tourDAO.update(getTour());
 	}
 	
 	public void delete() throws TourException {
-		tourDAO.delete(idProperty.get());
+		tourDAO.delete(getTour().getId());
 	}
 	
 	public ObservableList<Tour> getTours() {

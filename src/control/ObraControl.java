@@ -66,17 +66,11 @@ public class ObraControl {
 	}
 	
 	public void update() throws ObraException {
-		Obra o = new Obra();
-		o.setId(idProperty.get());
-		o.setTitulo(tituloProperty.get());
-		o.setDescricao(descricaoProperty.get());
-		o.setPeriodo(periodoProperty.get());
-		o.setAutorId((int) autorIdProperty.get());
-		obraDAO.update(o);
+		obraDAO.update(getObra());
 	}
 	
 	public void delete() throws ObraException {
-		obraDAO.delete(idProperty.get());
+		obraDAO.delete(getObra().getId());
 	}
 	
 	public LongProperty getIdProperty() {
