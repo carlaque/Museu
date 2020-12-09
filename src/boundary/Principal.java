@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 public class Principal extends Application 
 					implements EventHandler<ActionEvent>, AssinanteComando{
 	
+	Stage stage;
+	
 	private BorderPane panePrincipal = new BorderPane();
 	
 	private AutorBoundary autorTela = new AutorBoundary(this);
@@ -41,6 +43,7 @@ public class Principal extends Application
 	
 	@Override
 	public void start(Stage stage) { 
+		this.stage = stage;
 		Scene scn = new Scene(panePrincipal, 800, 600);
 		
 		panePrincipal.setTop(mnuPrincipal);
@@ -61,7 +64,7 @@ public class Principal extends Application
 		this.telaContext();
 		
 		stage.setScene(scn);
-		stage.setTitle("Tela principal");
+		stage.setTitle("Museu dos Mortos");
 		stage.show();
 	}
 	
@@ -110,16 +113,22 @@ public class Principal extends Application
 			System.exit(0);
 		} else if ("autor".equals(cmd)) { 
 			tela = autorTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Autor");
 		} else if ("obra".equals(cmd)) { 
 			tela = obraTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Obra");
 		} else if ("funcionario".equals(cmd)) {	
 			tela = funcionarioTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Funcionario");
 		} else if ("visitante".equals(cmd)) { 
 			tela = visitanteTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Visitante");
 		} else if ("tour".equals(cmd)) { 
 			tela = tourTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Tour");
 		} else if ("visita".equals(cmd)) { 
 			tela = visitaTela;
+			stage.setTitle("Museu dos Mortos - Cadastro de Visita");
 		} 
 		
 		this.telaContext();

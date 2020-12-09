@@ -9,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -100,11 +101,6 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		paneCampos.add(new Label("Periodo"), 0, 3);
 		paneCampos.add(txtPeriodo, 1, 3);
 
-		paneCampos.add(btnAdicionar, 0, 5);
-		paneCampos.add(btnPesquisar, 1, 5);
-		paneCampos.add(btnAtualizar, 0, 6);
-		paneCampos.add(btnDeletar, 1, 6);
-		paneCampos.add(btnVoltar, 2, 6);
 
 		btnVoltar.setOnAction(this);
 		btnAdicionar.setOnAction(this);
@@ -112,8 +108,24 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 		btnAtualizar.setOnAction(this);
 		btnDeletar.setOnAction(this);
 
+		GridPane btns = new GridPane();
+		
+		btns.add(btnVoltar, 1, 0);
+		btns.add(btnAdicionar, 2,0);
+		btns.add(btnPesquisar, 3,0);
+		btns.add(btnAtualizar, 4,0);
+		btns.add(btnDeletar, 5,0);
+		
+		paneCampos.setAlignment(Pos.CENTER);
+		btns.setAlignment(Pos.CENTER);
+		btns.setHgap(5);
+		paneCampos.setVgap(3);
+		paneCampos.setHgap(5);
+		
+		
 		tela.setTop(paneCampos);
-		tela.setCenter(table);
+		tela.setCenter(btns);
+		tela.setBottom(table);
 	}
 
 	@Override
