@@ -59,7 +59,7 @@ public class ObraControl {
 	}
 	
 	public void carregar()throws ObraException {
-		List<Obra> lista = obraDAO.carregar();
+		List<Obra> lista = obraDAO.carregar((int)this.getAutorIdProperty().get());
 		
 		this.obras.clear();
 		this.obras.addAll(lista);

@@ -205,8 +205,7 @@ public class ObraBoundary implements EventHandler<ActionEvent>, TelaStrategy {
 	@Override
 	public void carregar() {
 		try {
-			control.pesquisarPorNome();
-			;
+			control.carregar();
 		} catch (ObraException e1) {
 			e1.printStackTrace();
 			new Alert(AlertType.ERROR, "Erro ao carregar dados").show();

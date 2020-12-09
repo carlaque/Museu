@@ -63,13 +63,13 @@ public class ObraDAOImpl implements ObraDAO {
 	}
 
 	@Override
-	public List<Obra> carregar() throws ObraException {
+	public List<Obra> carregar(int autorId) throws ObraException {
 		List<Obra> lista = new ArrayList<>();
 		try {
 			Connection con = ConnectionSingleton.instancia().connection();
-			String sql = "SELECT * FROM obra";
+			String sql = "SELECT * FROM obra WHERE autor_id=?";
 			PreparedStatement st = con.prepareStatement(sql);
-			
+			st.setInt(1, autorId );
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) { 
 				Obra c = new Obra();
