@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -101,7 +102,6 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 		paneCampos.add(btnVoltarParaTour, 2, 6);
 		
 		btnVoltarParaTour.setVisible(false);
-		
 
 		btnVoltarParaTour.setOnAction(this);
 		btnAdicionar.setOnAction(this);
@@ -109,8 +109,24 @@ public class VisitanteBoundary implements EventHandler<ActionEvent>, TelaStrateg
 		btnAtualizar.setOnAction(this);
 		btnDeletar.setOnAction(this);
 
+		GridPane btns = new GridPane();
+		
+		btns.add(btnVoltarParaTour, 1, 0);
+		btns.add(btnAdicionar, 2,0);
+		btns.add(btnPesquisar, 3,0);
+		btns.add(btnAtualizar, 4,0);
+		btns.add(btnDeletar, 5,0);
+		
+		paneCampos.setAlignment(Pos.CENTER);
+		btns.setAlignment(Pos.CENTER);
+		btns.setHgap(5);
+		paneCampos.setVgap(3);
+		paneCampos.setHgap(5);
+		
+		
 		tela.setTop(paneCampos);
-		tela.setCenter(table);
+		tela.setCenter(btns);
+		tela.setBottom(table);
 
 	}
 
